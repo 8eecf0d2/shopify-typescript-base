@@ -1,44 +1,42 @@
-import * as React from 'react';
-import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, SkeletonPage, Tabs, TextContainer, TextField } from '@shopify/polaris';
+import * as React from "react";
+import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, SkeletonPage, Tabs, TextContainer, TextField } from "@shopify/polaris";
 
 export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
   private meta: LogsView.Meta = {
-    title: 'Logs',
+    title: "Logs",
     tabs: [
       {
-        id: 'all',
-        content: 'All',
-        type: 'all'
+        id: "all",
+        content: "All",
+        type: "all"
       },
       {
-        id: 'success',
-        content: 'Success',
-        type: 'success'
+        id: "success",
+        content: "Success",
+        type: "success"
       },
       {
-        id: 'error',
-        content: 'Errors',
-        type: 'error'
+        id: "error",
+        content: "Errors",
+        type: "error"
       },
     ],
-  }
+  };
 
   public state = {
     tab: 0,
-  }
-
-  componentDidMount() {}
+  };
 
   public render(): JSX.Element {
     // return this.skeleton()
     return (
       <Page
         title={this.meta.title}
-        breadcrumbs={[{ content: 'Dashboard', url: '/' }]}
+        breadcrumbs={[{ content: "Dashboard", url: "/" }]}
       >
         {this.renderTabs()}
       </Page>
-    )
+    );
   }
 
   private skeleton(): JSX.Element {
@@ -48,7 +46,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
           {this.skeletonDetails()}
         </Layout>
       </SkeletonPage>
-    )
+    );
   }
 
   public renderTabs(): JSX.Element {
@@ -65,14 +63,14 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
           <p>Showing <strong>{tab.type}</strong> logs</p>
         </Card.Section>
       </Card>
-    )
+    );
   }
 
   public skeletonDetails(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Details"
-        description="Customize the sync's name and purpose."
+        description="Customize the syncs name and purpose."
       >
         <Card sectioned>
           <TextContainer>
@@ -83,13 +81,13 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
           </TextContainer>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
 }
 
 export namespace LogsView {
-  export type LogTypes = 'all'|'info'|'success'|'error';
+  export type LogTypes = "all"|"info"|"success"|"error";
   export interface Meta {
     title: string;
     tabs: LogsView.Tab[];

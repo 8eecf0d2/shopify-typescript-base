@@ -29,7 +29,7 @@ export class SyncModel {
 export namespace SyncModel {
   export namespace Mapping {
     export type external = string;
-    export type internal = 'title'|'price'|'currency'|'description'|'images'|string;
+    export type internal = "title" | "price" | "currency" | "description" | "images" | string;
   }
   export interface Mapping {
     external: SyncModel.Mapping.external;

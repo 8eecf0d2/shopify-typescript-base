@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, SkeletonPage, TextContainer, TextField } from '@shopify/polaris';
+import * as React from "react";
+import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, SkeletonPage, TextContainer, TextField } from "@shopify/polaris";
 
 export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
   private meta: SyncView.Meta = {
-    title: 'Sync'
+    title: "Sync"
   }
 
   public state = {
@@ -17,9 +17,9 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
     return (
       <Page
         title={this.meta.title}
-        breadcrumbs={[{ content: 'Dashboard', url: '/' }]}
+        breadcrumbs={[{ content: "Dashboard", url: "/" }]}
         primaryAction={{
-          content: 'Save',
+          content: "Save",
           loading: Boolean(this.state.save_loading),
           onAction: async () => {
             this.setState({ save_loading: true });
@@ -29,7 +29,6 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
         }}
       >
         <Layout>
-          {/*{this.renderDetails()}*/}
           {this.renderEndpoint()}
           {this.renderMapping()}
         </Layout>
@@ -41,7 +40,6 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
     return (
       <SkeletonPage title={this.meta.title}>
         <Layout>>
-          {/*{this.skeletonDetails()}*/}
           {this.skeletonEndpoint()}
           {this.skeletonMapping()}
         </Layout>
@@ -78,7 +76,7 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
     return (
       <Layout.AnnotatedSection
         title="Details"
-        description="Customize the sync's name and purpose."
+        description="Customize the syncs name and purpose."
       >
         <Card sectioned>
           <TextContainer>
@@ -145,7 +143,7 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
         description={<span>Map fields between your Endpoint and Shopify. <Link url="https://shopify-product-sync.com/mapping">Learn more</Link></span>}
 
       >
-        <Card sectioned actions={[{content: 'Learn More'}]}>
+        <Card sectioned actions={[{content: "Learn More"}]}>
           <FormLayout>
             <TextField
               multiline={3}
@@ -193,8 +191,8 @@ export namespace SyncView {
 /*
   * Example Mapping (JSON) *
   {
-    product_title: 'title',
-    price: 'price',
-    images: 'photos',
+    product_title: "title",
+    price: "price",
+    images: "photos",
   }
 */

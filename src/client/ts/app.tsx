@@ -1,9 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { BrowserRouter, Switch, Route} from "react-router-dom";
 
-import { AppProvider } from '@shopify/polaris';
-import { DashboardView, LogsView, SyncView } from './views';
+import { AppProvider } from "@shopify/polaris";
+import { DashboardView, LogsView, SyncView } from "./views";
 
 export class App extends React.Component<App.Props> {
   public render(): JSX.Element {
@@ -17,14 +17,14 @@ export class App extends React.Component<App.Props> {
           </Switch>
         </AppProvider>
       </BrowserRouter>
-    )
+    );
   }
 
-  static start(): void {
+  public static start(): void {
     ReactDOM.render(
       <App />,
-      document.getElementById('root')
-    )
+      document.getElementById("root"),
+    );
   }
 }
 
