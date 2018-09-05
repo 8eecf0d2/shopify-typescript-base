@@ -1,8 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
+const history = require('connect-history-api-fallback');
+const convert = require('koa-connect');
 
 module.exports = {
-  entry: { bundle: './src/ts/index.ts' },
+  entry: { bundle: './src/client/ts/index.ts' },
   devtool: 'source-map',
   mode: process.env.MODE || process.env.NODE_ENV,
   plugins: [],
@@ -26,7 +28,10 @@ module.exports = {
 
 if(process.env.WEBPACK_SERVE) {
   module.exports.serve = {
-    port: 3000,
-    content: ['./src/html', './src'],
+    port: 2000,
+    content: ['./src/client/html', './src/client'],
+    add: (app, middleware, options) => {
+      app.use(convert(history({})));
+    }
   }
 }

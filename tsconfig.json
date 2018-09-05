@@ -9,13 +9,7 @@
 		"declaration": true,
 		"declarationDir": "./dist",
 		"outDir": "./dist",
-		"lib": [ "ES2017", "dom" ],
-        "jsx": "react"
-	},
-	"include": [
-		"src/ts/**/*.ts"
-	],
-	"exclude": [
-		"src/ts/**/*.spec.ts"
-	]
+		"lib": [ "ES2015", "ES2017", "dom" ],
+    "jsx": "react"
+	}
 }
