@@ -9,16 +9,20 @@
     "lint": "tslint --project .",
     "watch": "webpack --watch --config ./webpack.config.js",
     "watch:dev": "NODE_ENV=development yarn run watch",
+    "watch:prod": "NODE_ENV=production yarn run watch",
     "watch:client": "webpack --config ./src/client/webpack.config.js --watch --info-verbosity=verbose",
     "watch:server": "webpack --config ./src/server/webpack.config.js --watch --info-verbosity=verbose",
     "build": "webpack --config ./webpack.config.js",
     "build:dev": "NODE_ENV=development yarn run watch",
+    "build:prod": "NODE_ENV=production yarn run watch",
     "build:client": "webpack --config ./src/client/webpack.config.js --info-verbosity=verbose",
     "build:server": "webpack --config ./src/server/webpack.config.js --info-verbosity=verbose",
     "start": "NODE_ENV=development node dist/server.js",
     "start:dev": "NODE_ENV=development yarn run start",
+    "start:prod": "NODE_ENV=production yarn run start",
     "monitor": "nodemon dist/server.js",
-    "monitor:dev": "NODE_ENV=development nodemon dist/server.js"
+    "monitor:dev": "NODE_ENV=development nodemon dist/server.js",
+    "monitor:prod": "NODE_ENV=production nodemon dist/server.js"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
