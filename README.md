@@ -31,17 +31,17 @@ yarn run monitor
 
 Top level scripts use `:dev` or `:prod` environment modifiers for scripts
 ```bash
-yarn run build:<env>
+yarn run build<:env>
 yarn run build:client
 yarn run build:server
 
-yarn run watch:<env>
+yarn run watch<:env>
 yarn run watch:client
 yarn run watch:server
 
-yarn run start:<env>
+yarn run start<:env>
 
-yarn run monitor:<env>
+yarn run monitor<:env>
 ```
 
 | Service      | Endpoint      |
