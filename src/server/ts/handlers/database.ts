@@ -4,9 +4,9 @@ import { Handler } from './';
 export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindLogResponse> = async (context) => {
   // TODO: db stuffs
 
-  if(1 === 1) {
-    throw new Handler.Error({ foo: 'bar' }, 411);
-  }
+  // if(1 === 1) {
+  //   throw new Handler.Error({ foo: 'bar' }, 500);
+  // }
 
   return {
     ...context,
