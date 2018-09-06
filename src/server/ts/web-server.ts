@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as express from "express";
-import * as serveStatic from "serve-static";
 import { Server, IncomingMessage, ServerResponse } from "http";
 
 export class WebServer {
@@ -23,7 +22,11 @@ export class WebServer {
   }
 
   public static(external: string|string[], internal: string): void {
-    this.server.use(external, serveStatic(path.resolve(internal)));
+    this.route({
+      path: external,
+      method: "get",
+      handler: (request, response) => response.sendFile(path.resolve(internal))
+    });
     console.log(`[web-server]: serving "${internal}" → "${external}"`);
   }
 
@@ -42,7 +45,7 @@ export namespace WebServer {
     export type Handler = (request: WebServer.Route.Request, response: WebServer.Route.Response, next?: express.NextFunction) => void;
     export interface Options {
       method: WebServer.Route.Method;
-      path: string;
+      path: string|string[];
       handler: WebServer.Route.Handler;
     }
   }
