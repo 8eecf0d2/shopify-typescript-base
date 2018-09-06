@@ -17,7 +17,7 @@ const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
       try {
         context = await handler(context) as any;
       } catch(error) {
-        return response.status(error.code || 500).json(error.message);
+        return response.status(error.code || 500).json(error.response);
       }
     }
 

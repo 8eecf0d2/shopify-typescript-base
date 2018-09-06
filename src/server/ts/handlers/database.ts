@@ -5,7 +5,7 @@ export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindLogResponse> =
   // TODO: db stuffs
 
   if(1 === 1) {
-    throw new Handler.Error('uh oh', 411);
+    throw new Handler.Error({ foo: 'bar' }, 411);
   }
 
   return {

@@ -7,9 +7,9 @@ export const Handlers = {
 export const Handler = {
   Error: class HandlerError extends Error {
     constructor(
-      public message: string,
+      public response: string|any,
       public code: number,
-    ) { super(message) }
+    ) { super(response) }
   },
 }
 
