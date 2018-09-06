@@ -8,7 +8,7 @@ import { DashboardView, LogsView, SyncView } from "./views";
 export class App extends React.Component<App.Props> {
   public render(): JSX.Element {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/shopify">
         <AppProvider>
           <Switch>
             <Route exact path="/" component={DashboardView} />

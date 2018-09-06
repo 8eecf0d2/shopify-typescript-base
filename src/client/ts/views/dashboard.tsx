@@ -13,7 +13,7 @@ export class DashboardView extends React.Component<DashboardView.Props> {
       >
         <EmptyState
           heading="Keep your products in sync"
-          action={{content: "Start Syncing", url: "/sync"}}
+          action={{content: "Start Syncing", url: "/shopify/sync"}}
           secondaryAction={{content: "Learn more", url: "https://help.shopify.com"}}
           image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
         >

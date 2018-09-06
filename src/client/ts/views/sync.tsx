@@ -1,30 +1,39 @@
 import * as React from "react";
-import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, SkeletonPage, TextContainer, TextField } from "@shopify/polaris";
+import { Card, FormLayout, Layout, Link, Page, SkeletonBodyText, SkeletonDisplayText, TextContainer, TextField } from "@shopify/polaris";
 
 export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
   private meta: SyncView.Meta = {
-    title: "Sync"
-  }
+    title: "Sync",
+    breadcrumbs: [{ content: "Dashboard", url: "/shopify" }],
+  };
 
   public state = {
-    save_loading: false
+    loadingSave: false,
+    loadingView: false,
+  };
+
+  public async componentDidMount(): Promise<void> {
+    this.setState({ loadingView: true });
+    await new Promise(r => setTimeout(() => r(), 1000));
+    this.setState({ loadingView: false });
   }
 
-  componentDidMount() {}
 
   public render(): JSX.Element {
-    // return this.skeleton()
+    if(this.state.loadingView) {
+      return this.skeleton();
+    }
     return (
       <Page
         title={this.meta.title}
-        breadcrumbs={[{ content: "Dashboard", url: "/" }]}
+        breadcrumbs={this.meta.breadcrumbs}
         primaryAction={{
           content: "Save",
-          loading: Boolean(this.state.save_loading),
+          loading: Boolean(this.state.loadingSave),
           onAction: async () => {
-            this.setState({ save_loading: true });
+            this.setState({ loadingSave: true });
             await new Promise(r => setTimeout(() => r(), 2000));
-            this.setState({ save_loading: false })
+            this.setState({ loadingSave: false });
           }
         }}
       >
@@ -33,21 +42,24 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           {this.renderMapping()}
         </Layout>
       </Page>
-    )
+    );
   }
 
   private skeleton(): JSX.Element {
     return (
-      <SkeletonPage title={this.meta.title}>
-        <Layout>>
+      <Page
+        title={this.meta.title}
+        breadcrumbs={this.meta.breadcrumbs}
+      >
+        <Layout>
           {this.skeletonEndpoint()}
           {this.skeletonMapping()}
         </Layout>
-      </SkeletonPage>
-    )
+      </Page>
+    );
   }
 
-  public renderDetails(): JSX.Element {
+  private renderDetails(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Details"
@@ -69,10 +81,10 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
-  public skeletonDetails(): JSX.Element {
+  private skeletonDetails(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Details"
@@ -87,10 +99,10 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </TextContainer>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
-  public renderEndpoint(): JSX.Element {
+  private renderEndpoint(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Endpoint"
@@ -115,10 +127,10 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
-  public skeletonEndpoint(): JSX.Element {
+  private skeletonEndpoint(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Endpoint"
@@ -133,10 +145,10 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </TextContainer>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
-  public renderMapping(): JSX.Element {
+  private renderMapping(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Mapping"
@@ -155,10 +167,10 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </FormLayout>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
-  public skeletonMapping(): JSX.Element {
+  private skeletonMapping(): JSX.Element {
     return (
       <Layout.AnnotatedSection
         title="Mapping"
@@ -171,7 +183,7 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
           </TextContainer>
         </Card>
       </Layout.AnnotatedSection>
-    )
+    );
   }
 
 }
@@ -179,9 +191,11 @@ export class SyncView extends React.Component<SyncView.Props, SyncView.State> {
 export namespace SyncView {
   export interface Meta {
     title: string;
+    breadcrumbs: any[];
   }
   export interface State {
-    save_loading: boolean;
+    loadingView: boolean;
+    loadingSave: boolean;
   }
   export interface Props {
     syncItem: null;

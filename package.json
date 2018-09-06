@@ -2,35 +2,41 @@
   "name": "shopify-product-sync",
   "version": "0.0.0",
   "description": "Shopify product sync utility",
-  "main": "dist/bundle.js",
+  "main": "dist/server.js",
   "author": "8eecf0d2",
   "license": "ISC",
   "scripts": {
     "lint": "tslint --project .",
-    "watch": "webpack --watch --info-verbosity=verbose",
-    "watch:dev": "NODE_ENV=development yarn run watch",
-    "build": "webpack",
-    "build:dev": "NODE_ENV=development yarn run build",
-    "serve": "webpack-serve",
-    "serve:dev": "NODE_ENV=development yarn run serve"
+    "watch:client": "webpack --config ./webpack.config.client.js --watch --info-verbosity=verbose",
+    "watch:client:dev": "NODE_ENV=development yarn run watch:client",
+    "watch:server": "webpack --config ./webpack.config.server.js --watch --info-verbosity=verbose",
+    "watch:server:dev": "NODE_ENV=development yarn run watch:server",
+    "watch:server:prod": "NODE_ENV=production yarn run watch:server",
+    "build": "yarn run build:server && yarn run build:client",
+    "build:client": "webpack --config ./webpack.config.client.js",
+    "build:server": "webpack --config ./webpack.config.server.js",
+    "build:client:dev": "NODE_ENV=development yarn run build:client",
+    "build:server:dev": "NODE_ENV=development yarn run build:server",
+    "start:dev": "nodemon dist/server.js"
   },
   "devDependencies": {
+    "@types/express": "^4.16.0",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
+    "@types/serve-static": "^1.13.2",
     "@types/webpack": "^4.4.11",
-    "connect-history-api-fallback": "^1.5.0",
-    "koa-connect": "^2.0.1",
     "ts-loader": "^5.0.0",
     "typescript": "^3.0.3",
     "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0",
-    "webpack-serve": "^2.0.2"
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "@shopify/polaris": "^2.8.0",
+    "express": "^4.16.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "serve-static": "^1.13.2"
   }
 }
