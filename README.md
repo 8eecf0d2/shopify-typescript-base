@@ -24,7 +24,7 @@ Run server
 yarn run start
 ```
 
-Monitor server (nodemon)
+Monitor server (`nodemon`)
 ```bash
 yarn run monitor
 ```
