@@ -1,24 +1,37 @@
 import { WebServer } from "./web-server";
 import { Handler, Handlers } from "./handlers";
 
-const ApiHandlerProxy = (handler: Handler): WebServer.Route.Handler => {
+const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
   return async (request, response) => {
-    const payload = {
-      params: request.body,
-      user: '',
+
+    let context: Handler.Context = {
+      request: request.body,
+      response: null,
+      session: {
+        authenticated: false,
+      },
     }
-    let handlerResponse;
-    try {
-      handlerResponse = await handler(payload);
-    } catch(error) {
-      return response.status(error.code || 500).json(error.message);
+
+    for(const handler of handlers) {
+      try {
+        context = await handler(context) as any;
+      } catch(error) {
+        return response.status(error.code || 500).json(error.message);
+      }
     }
-    response.status(handlerResponse.code || 200).json(handlerResponse.data);
+    // @ts-ignore
+    response.status(context.code || 200).json(context.data);
   }
 }
 
+const ApiSessionCheck: Handler = (context) => {
+  return Promise.resolve({
+    ...context
+  })
+}
+
 export const endpoints: WebServer.Route.Options[] = [{
-  method: 'post',
+  method: 'get',
   path: '/api/database/find/log',
-  handler: ApiHandlerProxy(Handlers.Database.FindLog)
+  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.FindLog])
 }]

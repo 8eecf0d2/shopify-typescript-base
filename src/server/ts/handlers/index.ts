@@ -14,14 +14,20 @@ export const Handler = {
 }
 
 export namespace Handler {
-  export interface Request<RequestParams = any> {
-    params: RequestParams;
-    user: string;
+  export interface Session {
+    id?: string;
+    type?: 'oauth'|'password'|'header';
+    authenticated: boolean;
   }
-  export interface Response<ResponseData = any> {
-    data: ResponseData;
-    code?: any;
+  export interface Context<Request = Handler.Request, Response = Handler.Response> {
+    request: Request;
+    response: Response;
+    session: Handler.Session;
+  }
+  export interface Request {}
+  export interface Response {
+    code?: number;
   }
 }
 
-export type Handler<RequestType = Handler.Request, ResponseType = Handler.Response> = (request: Handler.Request<RequestType>) => Promise<ResponseType>;
+export type Handler<Request = Handler.Request, Response = Handler.Response> = (request: Handler.Context<Request, Response>) => Promise<Handler.Context<Request, Response>>;

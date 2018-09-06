@@ -1,16 +1,21 @@
 import { LogModel } from '../../../shared/ts/model';
 import { Handler } from './';
 
-export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindResponse> = async (request) => {
+export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindResponse> = async (context) => {
   // TODO: db stuffs
 
   return {
-    data: [],
-    code: 200
+    ...context,
+    reponse: {
+      data: [],
+      code: 200
+    }
   }
 }
 
-export interface DatabaseFindLogRequest extends Handler.Request {}
+export interface DatabaseFindLogRequest extends Handler.Request {
+  foo: string;
+}
 
 export interface DatabaseFindResponse extends Handler.Response {
   data: LogModel[];
