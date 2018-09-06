@@ -6,6 +6,7 @@ const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
 
     let context: Handler.Context = {
       request: request.body,
+      code: 200,
       response: null,
       session: {
         authenticated: false,
@@ -19,14 +20,17 @@ const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
         return response.status(error.code || 500).json(error.message);
       }
     }
-    // @ts-ignore
-    response.status(context.code || 200).json(context.data);
+
+    response.status(context.code || 200).json(context.response);
   }
 }
 
 const ApiSessionCheck: Handler = (context) => {
   return Promise.resolve({
-    ...context
+    ...context,
+    session: {
+      authenticated: true
+    }
   })
 }
 

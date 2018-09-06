@@ -22,12 +22,11 @@ export namespace Handler {
   export interface Context<Request = Handler.Request, Response = Handler.Response> {
     request: Request;
     response: Response;
+    code: number;
     session: Handler.Session;
   }
   export interface Request {}
-  export interface Response {
-    code?: number;
-  }
+  export interface Response {}
 }
 
 export type Handler<Request = Handler.Request, Response = Handler.Response> = (request: Handler.Context<Request, Response>) => Promise<Handler.Context<Request, Response>>;
