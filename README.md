@@ -43,3 +43,8 @@ yarn run start:<env>
 
 yarn run monitor:<env>
 ```
+
+| Service      | Endpoint      |
+| ------------ | ------------- |
+| Shopify App  | [`http://localhost:2010/shopify`](http://localhost:2010/shopify) |
+| API Endpoint | [`http://localhost:2010/api`](http://localhost:2010/api) |
