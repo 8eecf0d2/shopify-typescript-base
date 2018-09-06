@@ -4,7 +4,7 @@ import { Handler, Handlers } from "./handlers";
 const ApiHandlerProxy = (handler: Handler): WebServer.Route.Handler => {
   return async (request, response) => {
     const payload = {
-      params: request.body(),
+      params: request.body,
       user: '',
     }
     let handlerResponse;

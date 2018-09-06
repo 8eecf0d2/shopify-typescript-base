@@ -11,13 +11,4 @@ server.static("/shopify*", "src/client/html/index.html");
 
 server.handle(endpoints);
 
-// server.route({
-//   path: "/",
-//   method: "get",
-//   handler: (request, response) => {
-//     response.sendFile(path.resolve("src/client/html/index.html"))
-//     // response.status(200).json({ foo: "bar" })
-//   }
-// })
-
 server.start();

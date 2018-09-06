@@ -3,7 +3,6 @@ import { Handler } from './';
 
 export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindResponse> = async (request) => {
   // TODO: db stuffs
-  console.log('FindLog', request);
 
   return {
     data: [],
@@ -11,9 +10,7 @@ export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindResponse> = as
   }
 }
 
-export interface DatabaseFindLogRequest extends Handler.Request {
-  model: 'log';
-}
+export interface DatabaseFindLogRequest extends Handler.Request {}
 
 export interface DatabaseFindResponse extends Handler.Response {
   data: LogModel[];
