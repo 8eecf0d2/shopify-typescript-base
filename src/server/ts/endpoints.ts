@@ -35,7 +35,7 @@ const ApiSessionCheck: Handler = (context) => {
 }
 
 export const endpoints: WebServer.Route.Options[] = [{
-  method: 'get',
-  path: '/api/database/find/log',
+  method: "post",
+  path: "/api/database/find/log",
   handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.FindLog])
 }]

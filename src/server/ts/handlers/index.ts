@@ -16,7 +16,7 @@ export const Handler = {
 export namespace Handler {
   export interface Session {
     id?: string;
-    type?: 'oauth'|'password'|'header';
+    type?: "oauth"|"password"|"header";
     authenticated: boolean;
   }
   export interface Context<Request = Handler.Request, Response = Handler.Response> {

@@ -29,7 +29,7 @@ Monitor server (`nodemon`)
 yarn run monitor
 ```
 
-Top level scripts use `:dev` or `:prod` environment modifiers for scripts
+Top level scripts support `:dev` or `:prod` environment modifiers
 ```bash
 yarn run build<:env>
 yarn run build:client
