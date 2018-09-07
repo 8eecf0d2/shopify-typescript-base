@@ -8,7 +8,6 @@ import { formatDate } from "../util";
 export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
   private meta: LogsView.Meta = {
     title: "Logs",
-    breadcrumbs: [{ content: "Dashboard", url: "/shopify" }],
     filters: [{
       key: "type",
       label: "Log Type",
@@ -55,14 +54,14 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
     return (
       <Page
         title={this.meta.title}
-        breadcrumbs={this.meta.breadcrumbs}
+        primaryAction={{ content: 'Settings', url: '/shopify/settings' }}
       >
         <Card>
           <ResourceList
             resourceName={resourceName}
             items={this.filter(this.state.items)}
             filterControl={this.resourceFilterControl()}
-            renderItem={this.resourceListItem.bind(this)}
+            renderItem={(item) => this.resourceListItem(item)}
           />
           {this.pagination()}
         </Card>
@@ -85,7 +84,6 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
     return (
       <Page
         title={this.meta.title}
-        breadcrumbs={this.meta.breadcrumbs}
       >
         <Card sectioned>
           <TextContainer>
@@ -165,9 +163,9 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
       }}>
         <Pagination
           hasPrevious={this.state.hasPaginationPrev}
-          onPrevious={this.handlePaginationPrev.bind(this)}
+          onPrevious={() => this.handlePaginationPrev()}
           hasNext={this.state.hasPaginationNext}
-          onNext={this.handlePaginationNext.bind(this)}
+          onNext={() => this.handlePaginationNext()}
         />
       </div>
     );
@@ -201,7 +199,6 @@ export namespace LogsView {
   export type LogTypes = "info"|"success"|"error";
   export interface Meta {
     title: string;
-    breadcrumbs: any[];
     filters: Filter[];
   }
   export interface State {

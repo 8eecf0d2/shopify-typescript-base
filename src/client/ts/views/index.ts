@@ -1,3 +1,2 @@
-export * from "./dashboard";
+export * from "./settings";
 export * from "./logs";
-export * from "./sync";

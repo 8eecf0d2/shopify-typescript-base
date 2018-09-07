@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter, Switch, Route} from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import { AppProvider } from "@shopify/polaris";
-import { DashboardView, LogsView, SyncView } from "./views";
+import { LogsView, SettingsView } from "./views";
 
 export class App extends React.Component<App.Props> {
   public render(): JSX.Element {
@@ -11,9 +11,11 @@ export class App extends React.Component<App.Props> {
       <BrowserRouter basename="/shopify">
         <AppProvider>
           <Switch>
-            <Route exact path="/" component={DashboardView} />
+            <Route exact path="/">
+              <Redirect to="/settings"></Redirect>
+            </Route>
             <Route exact path="/logs" component={LogsView} />
-            <Route exact path="/sync" component={SyncView} />
+            <Route exact path="/settings" component={SettingsView} />
           </Switch>
         </AppProvider>
       </BrowserRouter>
