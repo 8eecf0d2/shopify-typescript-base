@@ -1,7 +1,9 @@
 import * as Database from "./database";
+import * as Shopify from "./shopify";
 
 export const Handlers = {
   Database,
+  Shopify,
 }
 
 export const Handler = {
@@ -18,12 +20,14 @@ export namespace Handler {
     id?: string;
     type?: "oauth"|"password"|"header";
     authenticated: boolean;
+    cookies: { [ key: string ]: string };
   }
   export interface Context<Request = Handler.Request, Response = Handler.Response> {
     request: Request;
     response: Response;
     code: number;
     session: Handler.Session;
+    redirect?: string;
   }
   export interface Request {}
   export interface Response {}

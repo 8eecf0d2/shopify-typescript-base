@@ -1,27 +1,46 @@
 import { WebServer } from "./web-server";
 import { Handler, Handlers } from "./handlers";
 
+import * as cookie from "cookie";
+
 const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
   return async (request, response) => {
-
     let context: Handler.Context = {
-      request: request.body,
+      request: {
+        ...request.params,
+        ...request.query,
+        ...request.body
+      },
       code: 200,
       response: null,
       session: {
         authenticated: false,
+        /** TODO: Parse incomming Cookies */
+        cookies: cookie.parse(String(request.headers.cookie))
       },
     }
 
     for(const handler of handlers) {
       try {
-        context = await handler(context) as any;
+        context = await handler(context);
       } catch(error) {
-        return response.status(error.code || 500).json(error.response);
+        console.error(`[web-server]: error:${error.code || 500}:${request.url}\n`, error)
+        return response.status(error.code || 500).json(error.response || "An internal error occured");
       }
     }
 
-    response.status(context.code || 200).json(context.response);
+    if(context.session.cookies) {
+      for(const cookie in context.session.cookies) {
+        /** TODO: Set outgoing Cookies */
+        response.cookie(cookie, context.session.cookies[cookie]);
+      }
+    }
+
+    if(context.redirect) {
+      return response.redirect(context.redirect)
+    }
+
+    return response.status(context.code || 200).json(context.response);
   }
 }
 
@@ -29,13 +48,25 @@ const ApiSessionCheck: Handler = (context) => {
   return Promise.resolve({
     ...context,
     session: {
-      authenticated: true
+      ...context.session,
+      authenticated: true,
     }
   })
 }
 
 export const endpoints: WebServer.Route.Options[] = [{
+  /** Shopify */
+  method: "get",
+  path: "/shopify/install",
+  handler: ApiHandlerProxy([Handlers.Shopify.InstallRoute])
+},{
+  /** Shopify */
+  method: "get",
+  path: "/shopify/callback",
+  handler: ApiHandlerProxy([Handlers.Shopify.CallbackRoute])
+},{
+  /** Database */
   method: "post",
   path: "/api/database/find/log",
-  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.FindLog])
-}]
+  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.FindLogRoute])
+},]

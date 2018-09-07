@@ -1,7 +1,7 @@
 import { LogModel } from "../../../shared/ts/model";
 import { Handler } from "./";
 
-export const FindLog: Handler<DatabaseFindLogRequest, DatabaseFindLogResponse> = async (context) => {
+export const FindLogRoute: Handler<DatabaseFindLogRequest, DatabaseFindLogResponse> = async (context) => {
 
   // if(1 === 1) {
   //   throw new Handler.Error({ foo: "bar" }, 500);
