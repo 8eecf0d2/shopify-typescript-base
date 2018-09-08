@@ -1,8 +1,10 @@
 import * as Database from "./database";
+import * as ShopifyAuth from "./shopify-auth";
 import * as Shopify from "./shopify";
 
 export const Handlers = {
   Database,
+  ShopifyAuth,
   Shopify,
 }
 

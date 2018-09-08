@@ -26,7 +26,6 @@ export const FindLogRoute: Handler<DatabaseFindLogRequest, DatabaseFindLogRespon
 export interface DatabaseFindLogRequest extends Handler.Request {
   foo: string;
 }
-
 export interface DatabaseFindLogResponse extends Handler.Response {
   items: LogModel[];
 }

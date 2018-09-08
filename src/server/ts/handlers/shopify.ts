@@ -1,60 +1,48 @@
-import * as path from "path";
-import * as crypto from "crypto";
-import * as uuid from "uuid";
-import * as querystring from "querystring";
-
+import { Fetch } from "../util";
 import { Handler } from "./";
 
-export const InstallRoute: Handler<ShopifyInstallRequest, ShopifyInstallResponse> = async (context) => {
-  if(!context.request.shop) {
-    throw new Handler.Error("Missing `shop` param.", 400);
-  }
-
-  const secret = uuid.v4();
-  const callback = `https://${process.env.SHOPIFY_APP_DOMAIN}/shopify/callback`;
-  const redirect = `https://${context.request.shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=${process.env.SHOPIFY_API_SCOPE}&state=${secret}&redirect_uri=${callback}`;
-
-  context.session.cookies.state = secret;
-
-  return {
-    ...context,
-    code: 200,
-    redirect: redirect,
-  };
-}
-
-export const CallbackRoute: Handler<ShopifyCallbackRequest, ShopifyCallbackResponse> = async (context) => {
-  if(context.request.state !== context.session.cookies.state) {
-    throw new Handler.Error("Unauthorizaed Origin.", 403);
-  }
-
-  if(!context.request.shop || !context.request.hmac || !context.request.code) {
-    throw new Handler.Error("Missing `shop`, `hmac` or `code` param.", 400);
-  }
-
-  /** TODO: Validate request with crypto */
-
-  /** TODO: Request Access Token */
+export const ShopRoute: Handler<ShopifyShopRequest, ShopifyShopResponse> = async (context) => {
+  const shopData = await new Fetch({
+    host: context.session.cookies.shop,
+    path: "/admin/shop.json",
+    port: 443,
+    method: "GET",
+    headers: {
+      "X-Shopify-Access-Token": context.session.cookies.token
+    }
+  }).exec();
 
   return {
     ...context,
     code: 200,
-    response: {}
+    response: shopData
   };
 }
 
+export interface ShopifyShopRequest extends Handler.Request {}
+export interface ShopifyShopResponse extends Handler.Response {}
 
-export interface ShopifyInstallRequest extends Handler.Request {
-  shop: string;
+export const GenericRoute: Handler<ShopifyGenericRequest, ShopifyGenericResponse> = async (context) => {
+  const shopData = await new Fetch({
+    host: context.session.cookies.shop,
+    path: context.request.path,
+    port: 443,
+    method: context.request.method,
+    headers: {
+      "X-Shopify-Access-Token": context.session.cookies.token
+    }
+  }).exec(context.request.payload || false);
+
+  return {
+    ...context,
+    code: 200,
+    response: shopData
+  };
 }
 
-export interface ShopifyInstallResponse extends Handler.Response {}
-
-export interface ShopifyCallbackRequest extends Handler.Request {
-  shop: string;
-  hmac: string;
-  code: string;
-  state: string;
+export interface ShopifyGenericRequest extends Handler.Request {
+  path: string;
+  method: string;
+  payload?: any;
 }
-
-export interface ShopifyCallbackResponse extends Handler.Response {}
+export interface ShopifyGenericResponse extends Handler.Response {}
