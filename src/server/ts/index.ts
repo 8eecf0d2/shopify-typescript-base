@@ -8,7 +8,7 @@ fs.readFileSync(".env", "utf8")
   .filter(variable => variable !== "")
   .forEach((variable: string) => process.env[variable.split("=")[0]] = variable.split("\"")[1]);
 
-const server = new WebServer(2010);
+const server = new WebServer(2080, 2443);
 
 /** Shopify Static Assets */
 server.static("/shopify/bundle.js", "dist/bundle.js");

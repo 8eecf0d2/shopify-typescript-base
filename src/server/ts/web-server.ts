@@ -1,12 +1,21 @@
+import * as fs from "fs";
 import * as path from "path";
+import * as http from "http";
+import * as https from "https";
 import * as express from "express";
 import * as bodyparser from "body-parser";
-import { Server, IncomingMessage, ServerResponse } from "http";
 
 export class WebServer {
   private server = express();
+  private certificates = {
+    key: fs.readFileSync("certificates/localhost.key"),
+    cert: fs.readFileSync("certificates/localhost.crt"),
+  };
 
-  constructor(private port: number) {
+  constructor(
+    private httpPort: number,
+    private httpsPort: number
+  ) {
     this.server.use(bodyparser.json())
   }
 
@@ -34,8 +43,11 @@ export class WebServer {
   }
 
   public start(): void {
-    this.server.listen(this.port, () => {
-      console.log(`[web-server]: started on port "${this.port}"`)
+    http.createServer(this.server).listen(this.httpPort, () => {
+      console.log(`[web-server]: started on port "${this.httpPort}" (http)`);
+    });
+    https.createServer(this.certificates, this.server).listen(this.httpsPort, () => {
+      console.log(`[web-server]: started on port "${this.httpsPort}" (https)`);
     });
   }
 }
