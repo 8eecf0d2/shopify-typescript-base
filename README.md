@@ -76,7 +76,7 @@ yarn run monitor<:env>
 
 #### Caveats
 
-You cannot view your app within the Shopify dashboard with `localhost` as the server due to CSP violations, to resolve this you must publicly expose your server, I'd recommend using [localtunnel](https://github.com/localtunnel/localtunnel) - afterwards update the `.env` file and **Shopify App** to match the public URL.
+You cannot view your app within the Shopify dashboard using `localhost` as the server due to CSP violations, to resolve this you must publicly expose your server, I'd recommend using [localtunnel](https://github.com/localtunnel/localtunnel) - afterwards update the `.env` file and **Shopify App** to match the public URL.
 
 ### Services
 
