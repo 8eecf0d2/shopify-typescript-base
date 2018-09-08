@@ -13,7 +13,7 @@ export const InstallRoute: Handler<ShopifyAuthInstallRequest, ShopifyAuthInstall
   const callback = `https://${process.env.SHOPIFY_APP_DOMAIN}/shopify/callback`;
   const redirect = `https://${context.request.shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=${process.env.SHOPIFY_API_SCOPE}&state=${secret}&redirect_uri=${callback}`;
 
-  context.session.cookies.state = secret;
+  context.session.cookies.secret = secret;
 
   return {
     ...context,
@@ -28,7 +28,7 @@ export interface ShopifyAuthInstallRequest extends Handler.Request {
 export interface ShopifyAuthInstallResponse extends Handler.Response {}
 
 export const CallbackRoute: Handler<ShopifyAuthCallbackRequest, ShopifyAuthCallbackResponse> = async (context) => {
-  if(context.request.state !== context.session.cookies.state) {
+  if(context.request.state !== context.session.cookies.secret) {
     throw new Handler.Error("Unauthorizaed Origin.", 403);
   }
 
