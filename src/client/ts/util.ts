@@ -6,3 +6,9 @@ export const formatDate = (input: Date|number|string) => {
 
   return dateStr;
 }
+
+export const cookie = (name: string) => {
+  const cookies = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
+  return cookies ? cookies.pop() : '';
+}
+
