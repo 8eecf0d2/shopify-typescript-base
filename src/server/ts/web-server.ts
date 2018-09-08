@@ -1,11 +1,14 @@
 import * as path from "path";
 import * as express from "express";
+import * as bodyparser from "body-parser";
 import { Server, IncomingMessage, ServerResponse } from "http";
 
 export class WebServer {
   private server = express();
 
-  constructor(private port: number) {}
+  constructor(private port: number) {
+    this.server.use(bodyparser.json())
+  }
 
   public route(options: WebServer.Route.Options): void {
     this.server[options.method](

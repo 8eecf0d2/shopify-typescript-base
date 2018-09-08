@@ -62,13 +62,13 @@ export const resource = {
       })
     }
   },
-  shopify: new Resource<{}>({
-    path: "/api/shopify"
+  shopify: new Resource<{ path: string, method: string, payload?: any }>({
+    path: "/api/shopify/proxy"
   })
 }
 
 
-resource.shopify.handler()
+resource.shopify.handler({ path: "/admin/products.json", method: "GET" })
   .then(response => {
     console.log(response)
   })

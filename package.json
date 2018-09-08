@@ -20,9 +20,9 @@
     "start": "NODE_ENV=development node dist/server.js",
     "start:dev": "NODE_ENV=development yarn run start",
     "start:prod": "NODE_ENV=production yarn run start",
-    "monitor": "nodemon dist/server.js",
-    "monitor:dev": "NODE_ENV=development nodemon dist/server.js",
-    "monitor:prod": "NODE_ENV=production nodemon dist/server.js"
+    "monitor": "nodemon dist/server.js --watch dist/server.js",
+    "monitor:dev": "NODE_ENV=development yarn run monitor",
+    "monitor:prod": "NODE_ENV=production yarn run monitor"
   },
   "devDependencies": {
     "@types/cookie": "^0.3.1",
@@ -42,6 +42,8 @@
   },
   "dependencies": {
     "@shopify/polaris": "^2.8.0",
+    "@types/body-parser": "^1.17.0",
+    "body-parser": "^1.18.3",
     "cookie": "^0.3.1",
     "express": "^4.16.3",
     "react": "^16.4.2",
