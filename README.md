@@ -47,7 +47,7 @@ yarn run monitor<:env>
 | Service           | Endpoint      |
 | ----------------- | ------------- |
 | Shopify App       | [`http://localhost:2010/shopify`](http://localhost:2010/shopify) |
-| Shopify Install   | [`http://localhost:2010/shopify/install`](http://localhost:2010/shopify/install?shop=<shopify_store_url>) |
+| Shopify Install   | [`http://localhost:2010/shopify/install?shop=<shopify_store_url>`](http://localhost:2010/shopify/install?shop=<shopify_store_url>) |
 | Shopify Callback  | [`http://localhost:2010/shopify/callback`](http://localhost:2010/shopify/callback) |
 | Shopify API Proxy | [`http://localhost:2010/api/shopify`](http://localhost:2010/api/shopify) |
 | API Endpoint      | [`http://localhost:2010/api`](http://localhost:2010/api) |
