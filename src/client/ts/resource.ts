@@ -14,7 +14,13 @@ export class Resource<RequestType = any, ResponseType = any> {
   }
 
   public handler(payload?: RequestType, options?: Resource.Options): Promise<Resource.HttpResponse> {
-    const requestInit = Object.assign({}, { body: payload }, options);
+    const requestInit = Object.assign({}, { body: JSON.stringify(payload) }, options);
+    if(payload) {
+      requestInit.headers = {
+        ...requestInit.headers,
+        "Content-Type": "application/json"
+      }
+    }
     return fetch(this.request, requestInit)
       .then(async response => {
         try {
