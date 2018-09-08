@@ -66,7 +66,7 @@ yarn run monitor<:env>
 2. Set the **App Url** to `https://localhost:2443/shopify`
 3. Ensure the **Areas** are set to `Shopify Admin`
 4. Add the **whitelist** to `https://localhost:2443/shopify/callback`
-5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your App.
+5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your **Shopify App**.
 
 #### Shopify Development Store
 
