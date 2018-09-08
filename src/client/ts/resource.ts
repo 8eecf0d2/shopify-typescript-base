@@ -19,30 +19,16 @@ export class Resource<RequestType = any, ResponseType = any> {
       .then(async response => {
         try {
           if(response.ok) {
-            return {
-              response: response,
-              data: await response.json(),
-            }
+            return { response: response, data: await response.json() }
           } else {
-            throw {
-              response: response,
-              data: await response.json(),
-            }
+            throw { response: response, data: await response.json() }
           }
         } catch(error) {
           console.error(error)
           if(response.ok) {
-            return {
-              response: response,
-              error: error,
-              data: undefined,
-            }
+            return { response: response, error: error, data: undefined }
           } else {
-            throw {
-              response: response,
-              error: error,
-              data: undefined,
-            }
+            throw { response: response, error: error, data: undefined }
           }
         }
       });
@@ -65,7 +51,18 @@ export namespace Resource {
 export const resource = {
   database: {
     find: {
-      log: new Resource<{between: Date[]}>({ path: "/api/database/find/log" })
+      log: new Resource<{between: Date[]}>({
+        path: "/api/database/find/log"
+      })
     }
-  }
+  },
+  shopify: new Resource<{}>({
+    path: "/api/shopify"
+  })
 }
+
+
+resource.shopify.handler()
+  .then(response => {
+    console.log(response)
+  })
