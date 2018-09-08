@@ -3,10 +3,6 @@ import { Handler } from "./";
 
 export const FindLogRoute: Handler<DatabaseFindLogRequest, DatabaseFindLogResponse> = async (context) => {
 
-  // if(1 === 1) {
-  //   throw new Handler.Error({ foo: "bar" }, 500);
-  // }
-
   const items: LogModel[] = [
     new LogModel({ id: "0", type: "warning", source: "server", message: "Foo bad", data: {}, ts: new Date('2018-08-11').getTime() }),
     new LogModel({ id: "1", type: "info", source: "server", message: "Foo ok", data: {}, ts: new Date('2018-08-11').getTime() }),
