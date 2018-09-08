@@ -25,7 +25,7 @@ export class Fetch<Payload = any> {
           try {
             data = JSON.parse(data);
           } catch(error) {
-            reject(new Error("Failed to obtain access token."));
+            reject(data);
           }
           return resolve(data);
         });
