@@ -1,6 +1,6 @@
-<h1 align="center">shopify-product-sync</h1>
+<h1 align="center">shopify-typescript-base</h1>
 
-<p align="center">Shopify product sync utility written in Typescript.</p>
+<p align="center">Simple Shopify App foundation written in Typescript</p>
 
 ### Usage
 

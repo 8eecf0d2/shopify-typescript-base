@@ -1,7 +1,7 @@
 {
-  "name": "shopify-product-sync",
+  "name": "shopify-typescript-base",
   "version": "0.0.0",
-  "description": "Shopify product sync utility",
+  "description": "Simple Shopify App foundation written in Typescript",
   "main": "dist/server.js",
   "author": "8eecf0d2",
   "license": "ISC",
