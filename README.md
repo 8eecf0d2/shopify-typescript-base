@@ -34,15 +34,20 @@ Monitor server (`nodemon`)
 yarn run monitor
 ```
 
-Top level scripts support `:dev` or `:prod` environment modifiers
+Additional scripts exist for targeting client and server
 ```bash
-yarn run build<:env>
 yarn run build:client
 yarn run build:server
 
-yarn run watch<:env>
 yarn run watch:client
 yarn run watch:server
+```
+
+Top level scripts support `:dev` or `:prod` environment modifiers
+```bash
+yarn run build<:env>
+
+yarn run watch<:env>
 
 yarn run start<:env>
 
