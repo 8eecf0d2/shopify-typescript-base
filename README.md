@@ -19,6 +19,11 @@ Watch source files
 yarn run watch
 ```
 
+Create SSL certificates (`localhost`)
+```bash
+yarn run certificates
+```
+
 Run server
 ```bash
 yarn run start
