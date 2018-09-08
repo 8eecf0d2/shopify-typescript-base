@@ -24,7 +24,7 @@ Create SSL certificates (`localhost`)
 yarn run certificates
 ```
 
-Run server
+Start server
 ```bash
 yarn run start
 ```
