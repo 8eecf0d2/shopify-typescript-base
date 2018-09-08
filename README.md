@@ -54,10 +54,31 @@ yarn run start<:env>
 yarn run monitor<:env>
 ```
 
+### Shopify Setup
+
+#### Shopify Partner
+
+1. Create a **Shopify Partner** account at [partners.shopify.com](https://partners.shopify.com/)
+
+#### Shopify App
+
+1. Create a new **App** from the partner dashboard
+2. Set the **App Url** to `https://localhost:2443/shopify`
+3. Ensure the **Areas** are set to `Shopify Admin`
+4. Add the **whitelist** to `https://localhost:2443/shopify/callback`
+
+#### Shopify Development Store
+
+1. Create a new **Development Store** from the partner dashboard
+2. Copy the store's **URL** from the Development Store dashboard (eg, `test-shop.myshopify.com`).
+3. Visit `https://localhost:2443/shopify/install?shop=test-shop.myshopify.com` and follow OAuth flow.
+
+### Services
+
 | Service           | Endpoint      |
 | ----------------- | ------------- |
-| Shopify App       | [`http://localhost:2010/shopify`](http://localhost:2010/shopify) |
-| Shopify Install   | [`http://localhost:2010/shopify/install?shop=<shopify_store_url>`](http://localhost:2010/shopify/install?shop=<shopify_store_url>) |
-| Shopify Callback  | [`http://localhost:2010/shopify/callback`](http://localhost:2010/shopify/callback) |
-| Shopify API Proxy | [`http://localhost:2010/api/shopify`](http://localhost:2010/api/shopify) |
-| API Endpoint      | [`http://localhost:2010/api`](http://localhost:2010/api) |
+| Shopify App       | [`http://localhost:2443/shopify`](http://localhost:2443/shopify) |
+| Shopify Install   | [`http://localhost:2443/shopify/install?shop=<shopify_store_url>`](http://localhost:2443/shopify/install?shop=<shopify_store_url>) |
+| Shopify Callback  | [`http://localhost:2443/shopify/callback`](http://localhost:2443/shopify/callback) |
+| Shopify API Proxy | [`http://localhost:2443/api/shopify`](http://localhost:2443/api/shopify) |
+| API Endpoint      | [`http://localhost:2443/api`](http://localhost:2443/api) |
