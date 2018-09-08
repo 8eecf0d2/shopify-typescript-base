@@ -2,6 +2,13 @@ import { Fetch } from "../util";
 import { Handler } from "./";
 
 export const ProxyRoute: Handler<ShopifyProxyRequest, ShopifyProxyResponse> = async (context) => {
+  if(!context.session.cookies.shop || !context.session.cookies.token) {
+    throw new Handler.Error("Missing cookies", 400);
+  }
+  if(!context.request.path || !context.request.method) {
+    throw new Handler.Error("Missing params", 400);
+  }
+
   const response = await new Fetch({
     host: context.session.cookies.shop,
     path: context.request.path,
