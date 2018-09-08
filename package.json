@@ -6,7 +6,7 @@
   "author": "8eecf0d2",
   "license": "ISC",
   "scripts": {
-    "certificates": "mkdir -p certificates && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout certificates/localhost.key -out certificates/localhost.crt -subj '/CN=localhost'",
+    "certificates": "mkdir -p certificates && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout certificates/localhost.key -out certificates/localhost.crt -subj '/CN=localhost' &> /dev/null",
     "lint": "tslint --project .",
     "watch": "webpack --watch --config ./webpack.config.js",
     "watch:dev": "NODE_ENV=development yarn run watch",
