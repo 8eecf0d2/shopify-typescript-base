@@ -18,12 +18,12 @@ export class Fetch<Payload = any> {
       }
 
       const request = https.request(this.options, (response) => {
-        response.setEncoding("utf8");
         let data = "";
+        response.setEncoding("utf8");
         response.on("data", (body) => data += body);
         response.on("end", () => {
           try {
-            data = JSON.parse(data)
+            data = JSON.parse(data);
           } catch(error) {
             reject(new Error("Failed to obtain access token."));
           }
