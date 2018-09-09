@@ -1,4 +1,4 @@
-import { WebServer } from "./web-server";
+import { WebServer } from "../../shared/ts/web-server";
 import { Handler, Handlers } from "./handlers";
 
 import * as cookie from "cookie";

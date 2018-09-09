@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import * as uuid from "uuid";
 
-import { Fetch } from "../util";
+import { Fetch } from "../../../shared/ts/fetch";
 import { Handler } from "./";
 
 export const InstallRoute: Handler<ShopifyAuthInstallRequest, ShopifyAuthInstallResponse> = async (context) => {

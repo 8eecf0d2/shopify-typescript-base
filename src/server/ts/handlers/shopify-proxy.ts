@@ -1,4 +1,4 @@
-import { Fetch } from "../util";
+import { Fetch } from "../../../shared/ts/fetch";
 import { Handler } from "./";
 
 /**

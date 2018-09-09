@@ -21,7 +21,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.database.find.handler({ model: "template" }))
+      .then(() => resource.database.find.handler({ schema: "templates" }))
       .then((response) => this.setState({ items: response.data.items, loadingView: false }))
       .catch((error) => console.log("error", error))
   }

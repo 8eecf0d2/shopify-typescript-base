@@ -4,7 +4,11 @@ import * as querystring from "querystring";
 export class Fetch<Payload = any> {
   constructor(
     public options: https.RequestOptions
-  ) {}
+  ) {
+    if(process.env.NODE_ENV === "development") {
+      this.options = Object.assign({}, this.options, { rejectUnauthorized: false })
+    }
+  }
 
   public async exec (payload?: Payload): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -13,6 +17,7 @@ export class Fetch<Payload = any> {
         payloadStr = JSON.stringify(payload);
         this.options.headers = {
           ...this.options.headers,
+          "Content-Type": "application/json",
           "Content-Length": payloadStr.length
         }
       }

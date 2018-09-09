@@ -27,7 +27,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.handler({ method: "GET", path: `/admin/orders/${this.props.match.params.id}.json` }))
       .then((response) => this.setState({ item: OrderSchema.parse(response.data.order)[0] }))
-      .then(() => resource.database.find.handler({ model: "template" }))
+      .then(() => resource.database.find.handler({ schema: "templates" }))
       .then((response) => this.setState({ templates: response.data.items} ))
       .then(() => this.selectDefaultTemplates())
       .then(() => this.createPreviews())

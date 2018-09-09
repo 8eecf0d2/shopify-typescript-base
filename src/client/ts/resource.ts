@@ -63,7 +63,7 @@ export namespace Resource {
 
 export const resource = {
   database: {
-    find: new Resource<{ model: string, query?: any }>({
+    find: new Resource<{ schema: string, query?: any }>({
       path: "/api/database/find"
     })
   },

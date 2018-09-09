@@ -33,7 +33,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
 
   public async componentDidMount (): Promise<void> {
     /** TODO: manage data elsewhere */
-    resource.database.find.handler({ model: "log", query: { between: [new Date("2018-08-11"), new Date()] }})
+    resource.database.find.handler({ schema: "logs", query: { between: [new Date("2018-08-11"), new Date()] }})
       .then(response => this.setState({ items: response.data.items }))
       .catch(error => console.log("error", error))
   }

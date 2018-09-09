@@ -3,7 +3,7 @@ export class TemplateSchema {
     return {
       id: "",
       title: "",
-      shopId: "",
+      shop: "",
       content: "",
       default: false,
       createdAt: new Date(),
@@ -18,7 +18,7 @@ export namespace TemplateSchema {
     id: string;
     title: string;
     content: string;
-    shopId: string;
+    shop: string;
     default: boolean;
     createdAt: Date;
     updatedAt: Date;

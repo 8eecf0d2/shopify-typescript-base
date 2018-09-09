@@ -27,21 +27,29 @@ yarn run certificates
 
 Start server
 ```bash
-yarn run start
+yarn run start:server
+```
+
+Start database
+```bash
+yarn run start:database
 ```
 
 Monitor server (`nodemon`)
 ```bash
-yarn run monitor
+yarn run monitor:server
 ```
 
-Additional scripts exist for targeting client and server
+Monitor database (`nodemon`)
 ```bash
-yarn run build:client
-yarn run build:server
+yarn run monitor:server
+```
 
-yarn run watch:client
-yarn run watch:server
+Additional scripts exist for targeting client, server and database
+```bash
+yarn run build<:client|server|database>
+
+yarn run watch<:client|server|database>
 ```
 
 Top level scripts support `:dev` or `:prod` environment modifiers
@@ -50,9 +58,9 @@ yarn run build<:env>
 
 yarn run watch<:env>
 
-yarn run start<:env>
+yarn run start<:server|database><:env>
 
-yarn run monitor<:env>
+yarn run monitor<:server|database><:env>
 ```
 
 ### Shopify Setup
