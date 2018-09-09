@@ -42,7 +42,7 @@ yarn run monitor:server
 
 Monitor database (`nodemon`)
 ```bash
-yarn run monitor:server
+yarn run monitor:database
 ```
 
 Additional scripts exist for targeting client, server and database
