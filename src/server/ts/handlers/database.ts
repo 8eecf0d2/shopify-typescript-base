@@ -9,8 +9,9 @@ export const Find: Handler<DatabaseFindRequest, DatabaseFindResponse> = async (c
     port: process.env.DATABASE_HTTPS_PORT,
     method: "POST"
   }).exec({
+    search: context.request.query || undefined,
     schema: context.request.schema,
-    shop: context.session.cookies.shop
+    shop: context.session.cookies.shop,
   });
 
   return {
@@ -24,6 +25,7 @@ export const Find: Handler<DatabaseFindRequest, DatabaseFindResponse> = async (c
 
 export interface DatabaseFindRequest<SchemaType = string> extends Handler.Request {
   schema: SchemaType;
+  query?: any
 }
 export interface DatabaseFindResponse extends Handler.Response {
   items: any[];

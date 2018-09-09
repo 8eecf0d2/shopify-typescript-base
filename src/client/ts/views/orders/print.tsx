@@ -63,9 +63,6 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
         secondaryActions={[{
           content: "Templates",
           url: "/shopify/templates",
-        },{
-          content: "Settings",
-          url: "/shopify/settings",
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content()}

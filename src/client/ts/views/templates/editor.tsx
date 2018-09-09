@@ -1,5 +1,12 @@
 import * as React from "react";
-import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
+//@ts-ignore
+import Editor from 'react-simple-code-editor';
+//@ts-ignore
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-liquid';
+import 'prismjs/components/prism-clike';
+
+import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextField, TextStyle } from "@shopify/polaris";
 
 import { TemplateSchema } from "../../../../shared/ts/shcema";
 import { resource } from "../../resource";
@@ -12,8 +19,6 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
 
   public state: TemplatesEditorView.State = {
     item: TemplateSchema.empty(),
-    items: [TemplateSchema.empty()],
-    selectedItems: [],
     loadingView: false,
   };
 
@@ -21,8 +26,9 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.database.find.handler({ schema: "templates" }))
-      .then((response) => this.setState({ items: response.data.items, loadingView: false }))
+      .then(() => resource.database.find.handler({ schema: "templates", query: { id: this.props.match.params.id } }))
+      .then((response) => this.setState({ item: response.data.items[0] }))
+      .then(() => this.setState({ loadingView: false }))
       .catch((error) => console.log("error", error))
   }
 
@@ -30,12 +36,13 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     return (
       <Page
         title={this.meta.title}
+        breadcrumbs={[{
+          content: "Templates",
+          url: "/shopify/templates"
+        }]}
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
-        },{
-          content: "Settings",
-          url: "/shopify/settings",
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content() }
@@ -50,21 +57,21 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     };
 
     return (
-      <Card>
-        <ResourceList
-          resourceName={resourceName}
-          items={this.state.items}
-          selectedItems={this.state.selectedItems}
-          onSelectionChange={(selectedItems) => this.setState({ selectedItems: selectedItems })}
-          renderItem={(item) => this.resourceListItem(item)}
-          promotedBulkActions={[{
-            content: "Set as default",
-            onAction: () => {}
-          },{
-            content: "Remove",
-            onAction: () => {}
-          }]}
+      <Card sectioned>
+        <TextField
+          label="Store name"
+          value={this.state.item.title}
+          onChange={(title) => this.setState((prevState) => ({ item: { ...prevState.item, title: title }}))}
         />
+        <div style={{ marginTop: "20px" }} className="editor">
+          <Editor
+            value={this.state.item.content}
+            onValueChange={(content: string) => this.setState((prevState) => ({ item: { ...prevState.item, content: content }}))}
+            highlight={(code: string) => highlight(code, languages.liquid)}
+            padding={10}
+            style={{ fontFamily: "monospace", fontSize: "14px" }}
+          />
+        </div>
       </Card>
     )
   }
@@ -78,31 +85,6 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
       </Card>
     );
   }
-
-  private resourceListItem (template: TemplateSchema.Object): JSX.Element {
-    return (
-      <ResourceList.Item
-        accessibilityLabel={`View template details`}
-        id={template.id}
-        onClick={() => this.setState({ item: template })}
-        >
-          <div style={{ display: "flex", alignItems: "start" }}>
-            <div style={{ width: "25%", paddingTop: "5px" }}>
-              <TextStyle variation="strong">{template.title}</TextStyle>
-            </div>
-            <div style={{ width: "25%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
-              <TextStyle variation="subdued">{util.formatDate(template.updatedAt) || <span>&#8212;</span>}</TextStyle>
-            </div>
-            <div style={{ width: "20%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
-              {template.default ? <Badge status="success">Default</Badge> : null}
-            </div>
-            <div style={{ width: "30%", textAlign: "right" }}>
-              <Button size="slim" url={`/shopify/templates/${template.id}`}>Edit</Button>
-            </div>
-          </div>
-      </ResourceList.Item>
-    );
-  }
 }
 
 export namespace TemplatesEditorView {
@@ -112,9 +94,13 @@ export namespace TemplatesEditorView {
   }
   export interface State {
     item: TemplateSchema.Object;
-    items: TemplateSchema.Object[];
-    selectedItems: ResourceListSelectedItems;
     loadingView: boolean;
   }
-  export interface Props {}
+  export interface Props {
+    match: {
+      params: {
+        id: string;
+      }
+    }
+  }
 }

@@ -33,9 +33,6 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
-        },{
-          content: "Settings",
-          url: "/shopify/settings",
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content() }
@@ -84,7 +81,7 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
       <ResourceList.Item
         accessibilityLabel={`View template details`}
         id={template.id}
-        onClick={() => this.setState({ item: template })}
+        url={`/shopify/templates/${template.id}`}
         >
           <div style={{ display: "flex", alignItems: "start" }}>
             <div style={{ width: "25%" }}>

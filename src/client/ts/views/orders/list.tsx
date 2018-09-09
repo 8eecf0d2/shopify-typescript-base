@@ -48,9 +48,6 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
         secondaryActions={[{
           content: "Templates",
           url: "/shopify/templates",
-        },{
-          content: "Settings",
-          url: "/shopify/settings",
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content()}
