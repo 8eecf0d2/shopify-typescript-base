@@ -4,6 +4,6 @@ const databaseConfig = require("./src/database/webpack.config.js");
 
 module.exports = [
   ...clientConfig,
-  serverConfig,
-  databaseConfig,
+  ...serverConfig,
+  ...databaseConfig,
 ];

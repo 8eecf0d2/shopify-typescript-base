@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 
-module.exports = {
+module.exports = [{
   entry: { database: "./src/database/ts/index.ts" },
   devtool: "source-map",
   mode: process.env.MODE || process.env.NODE_ENV,
@@ -23,4 +23,4 @@ module.exports = {
     path: path.resolve(__dirname, "../../"),
     filename: "./dist/[name].js",
   }
-};
+}];
