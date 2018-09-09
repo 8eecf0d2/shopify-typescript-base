@@ -72,6 +72,6 @@ export const endpoints: WebServer.Route.Options[] = [{
 },{
   /** Database */
   method: "post",
-  path: "/api/database/find/log",
-  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.FindLogRoute])
+  path: "/api/database/find",
+  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.Find])
 },]

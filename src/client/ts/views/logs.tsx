@@ -124,7 +124,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
             </span>
             <TextStyle variation="strong">{item.message}</TextStyle>
           </h3>
-          <TextStyle variation="subdued">{formatDate(item.ts)}</TextStyle>
+          <TextStyle variation="subdued">{formatDate(item.createdAt)}</TextStyle>
       </ResourceList.Item>
     );
   }

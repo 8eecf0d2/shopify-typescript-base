@@ -5,6 +5,7 @@ export class TemplateSchema {
       title: "",
       shopId: "",
       content: "",
+      default: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -18,8 +19,8 @@ export namespace TemplateSchema {
     title: string;
     content: string;
     shopId: string;
+    default: boolean;
     createdAt: Date;
     updatedAt: Date;
   }
-
 }

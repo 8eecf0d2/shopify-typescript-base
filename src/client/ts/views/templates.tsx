@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
+import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
 import { TemplateSchema } from "../../../shared/ts/shcema";
 import { resource } from "../resource";
@@ -13,14 +13,15 @@ export class TemplatesView extends React.Component<TemplatesView.Props, Template
   public state: TemplatesView.State = {
     item: TemplateSchema.empty(),
     items: [TemplateSchema.empty()],
+    selectedItems: [],
     loadingView: false,
   };
 
   public async componentDidMount (): Promise<void> {
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.shopify.handler({ method: "GET", path: "/database/templates.json" }))
-      .then(() => this.setState({ loadingView: false }))
+      .then(() => resource.database.find.handler({ model: "template" }))
+      .then((response) => this.setState({ items: response.data.items, loadingView: false }))
       .catch((error) => console.log("error", error))
   }
 
@@ -52,10 +53,15 @@ export class TemplatesView extends React.Component<TemplatesView.Props, Template
         <ResourceList
           resourceName={resourceName}
           items={this.state.items}
+          selectedItems={this.state.selectedItems}
+          onSelectionChange={(selectedItems) => this.setState({ selectedItems: selectedItems })}
           renderItem={(item) => this.resourceListItem(item)}
           promotedBulkActions={[{
-            content: "Prepare Templates",
-            url: "/shopify/templates/prepare"
+            content: "Set as default",
+            onAction: () => {}
+          },{
+            content: "Remove",
+            onAction: () => {}
           }]}
         />
       </Card>
@@ -77,18 +83,25 @@ export class TemplatesView extends React.Component<TemplatesView.Props, Template
       <ResourceList.Item
         accessibilityLabel={`View template details`}
         id={template.id}
-        shortcutActions={[{
-          content: "View Preview",
-          onAction: () => this.setState({ item: template })
-        }]}
         onClick={() => this.setState({ item: template })}
         >
           <div style={{ display: "flex", alignItems: "start" }}>
-            <div>
+            <div style={{ width: "25%", paddingTop: "5px" }}>
               <TextStyle variation="strong">{template.title}</TextStyle>
             </div>
-            <div style={{ width: "25%", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
-              <TextStyle variation="subdued">{template.title || <span>&#8212;</span>}</TextStyle>
+            <div style={{ width: "25%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
+              <TextStyle variation="subdued">{util.formatDate(template.updatedAt) || <span>&#8212;</span>}</TextStyle>
+            </div>
+            <div style={{ width: "20%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
+              {template.default ? <Badge status="success">Default</Badge> : null}
+            </div>
+            <div style={{ width: "30%", textAlign: "right" }}>
+              <div style={{ display: "inline-block" }}>
+                <Button size="slim">Edit</Button>
+              </div>
+              <div style={{ display: "inline-block", paddingLeft: "20px" }}>
+                <Button size="slim" destructive>Remove</Button>
+              </div>
             </div>
           </div>
       </ResourceList.Item>
@@ -104,6 +117,7 @@ export namespace TemplatesView {
   export interface State {
     item: TemplateSchema.Object;
     items: TemplateSchema.Object[];
+    selectedItems: ResourceListSelectedItems;
     loadingView: boolean;
   }
   export interface Props {}

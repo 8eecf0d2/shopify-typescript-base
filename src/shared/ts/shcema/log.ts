@@ -6,7 +6,7 @@ export class LogSchema {
       source: "",
       message: "",
       data: {},
-      ts: 0,
+      createdAt: 0,
     };
   }
 }
@@ -19,7 +19,7 @@ export namespace LogSchema {
     source: string;
     message: string;
     data: any;
-    ts: number;
+    createdAt: number;
   }
 
 }

@@ -59,11 +59,9 @@ export namespace Resource {
 
 export const resource = {
   database: {
-    find: {
-      log: new Resource<{between: Date[]}>({
-        path: "/api/database/find/log"
-      })
-    }
+    find: new Resource<{ model: string, query?: any }>({
+      path: "/api/database/find"
+    })
   },
   shopify: new Resource<{ path: string, method: string, payload?: any }>({
     path: "/api/shopify/proxy"
