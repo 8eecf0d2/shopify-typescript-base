@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, Redirect, Link } from "react-router-dom";
 
 import { AppProvider, TextStyle } from "@shopify/polaris";
-import { LogsView, OrdersView, SettingsView, TemplatesView } from "./views";
+import * as Views from "./views";
 import * as util from "./util";
 
 export class App extends React.Component<App.Props> {
@@ -19,13 +19,14 @@ export class App extends React.Component<App.Props> {
           }}
         >
           <Switch>
-            <Route exact path="/">
-              <Redirect to="/shopify/settings"></Redirect>
+            <Route exact path="/shopify">
+              <Redirect to="/shopify/orders"></Redirect>
             </Route>
-            <Route exact path="/shopify/logs" component={LogsView} />
-            <Route exact path="/shopify/orders" component={OrdersView} />
-            <Route exact path="/shopify/templates" component={TemplatesView} />
-            <Route exact path="/shopify/settings" component={SettingsView} />
+            <Route exact path="/shopify/logs" component={Views.LogsView} />
+            <Route exact path="/shopify/orders" component={Views.OrdersView} />
+            <Route exact path="/shopify/templates" component={Views.TemplatesListView} />
+            <Route exact path="/shopify/templates/:id" component={Views.TemplatesEditorView} />
+            <Route exact path="/shopify/settings" component={Views.SettingsView} />
           </Switch>
         </AppProvider>
       </BrowserRouter>

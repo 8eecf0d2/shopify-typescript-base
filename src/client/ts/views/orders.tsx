@@ -1,8 +1,9 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderSchema } from "../../../shared/ts/shcema";
+import { OrderSchema, TemplateSchema } from "../../../shared/ts/shcema";
 import { resource } from "../resource";
+import { Printer } from "../printer";
 import * as util from "../util";
 
 export class OrdersView extends React.Component<OrdersView.Props, OrdersView.State> {
@@ -15,6 +16,8 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
     item: OrderSchema.empty(),
     items: [],
     selectedItems: [],
+    templates: [],
+    orderPreview: "",
     loadingView: false,
     modalOpen: false,
     searchValue: "",
@@ -31,6 +34,8 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.handler({ method: "GET", path: "/admin/orders.json?status=any" }))
       .then((response) => this.setState({ items: OrderSchema.parse(response.data.orders) }))
+      .then(() => resource.database.find.handler({ model: "template" }))
+      .then((response) => this.setState({ templates: response.data.items }))
       .then(() => this.setState({ loadingView: false }))
       .catch((error) => console.log("error", error))
   }
@@ -73,7 +78,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
             url: "/shopify/orders/prepare"
           }]}
         />
-        {this.pagination()}
+        {this.state.items.length > 50 ? this.pagination() : null}
       </Card>
     )
   }
@@ -112,14 +117,17 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
   }
 
   private resourceListItem (order: OrderSchema.Object): JSX.Element {
-    // order.email = "brod@gmail.com"
     return (
       <ResourceList.Item
         accessibilityLabel={`View order details`}
         id={order.id}
         shortcutActions={[{
           content: "View Preview",
-          onAction: () => this.setState({ item: order, modalOpen: true })
+          onAction: async () => this.setState({
+            item: order,
+            orderPreview: await Printer.print(this.state.templates[0], order),
+            modalOpen: true
+          })
         }]}
         onClick={() => this.setState({ item: order, modalOpen: true })}
         >
@@ -130,7 +138,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
             <div style={{ width: "25%", paddingLeft: "20px", textAlign: order.email ? "left" : "center", textOverflow: "truncate" }}>
               <TextStyle variation="subdued">{order.email || <span>&#8212;</span>}</TextStyle>
             </div>
-            <div style={{ width: "20%" }}>
+            <div style={{ width: "30%" }}>
               <TextStyle variation="subdued">{util.formatDate(order.created_at)}</TextStyle>
             </div>
             <div style={{ width: "10%", textTransform: "capitalize" }}>
@@ -156,6 +164,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
         title={<TextStyle variation="strong">Order Preview</TextStyle>}
       >
         <Modal.Section>
+          {<div dangerouslySetInnerHTML={{ __html: this.state.orderPreview }}></div>}
           <TextContainer>
             <pre style={{
               border: "1px solid #dfe4e8",
@@ -224,6 +233,8 @@ export namespace OrdersView {
     item: OrderSchema.Object;
     items: OrderSchema.Object[];
     selectedItems: ResourceListSelectedItems;
+    templates: TemplateSchema.Object[];
+    orderPreview: string;
     loadingView: boolean;
     modalOpen: boolean;
     searchValue: string;

@@ -24,7 +24,6 @@ export class Resource<RequestType = any, ResponseType = any> {
     }
     const key = JSON.stringify({ request: this.request, options: requestInit });
     if(Resource.cache[key]) {
-      console.log(`[cache]: ${key}`, Resource.cache[key])
       return Resource.cache[key];
     }
     return fetch(this.request, requestInit)

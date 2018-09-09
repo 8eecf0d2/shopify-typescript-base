@@ -1,16 +1,16 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { TemplateSchema } from "../../../shared/ts/shcema";
-import { resource } from "../resource";
-import * as util from "../util";
+import { TemplateSchema } from "../../../../shared/ts/shcema";
+import { resource } from "../../resource";
+import * as util from "../../util";
 
-export class TemplatesView extends React.Component<TemplatesView.Props, TemplatesView.State> {
-  private meta: TemplatesView.Meta = {
+export class TemplatesEditorView extends React.Component<TemplatesEditorView.Props, TemplatesEditorView.State> {
+  private meta: TemplatesEditorView.Meta = {
     title: "Templates",
   };
 
-  public state: TemplatesView.State = {
+  public state: TemplatesEditorView.State = {
     item: TemplateSchema.empty(),
     items: [TemplateSchema.empty()],
     selectedItems: [],
@@ -96,12 +96,7 @@ export class TemplatesView extends React.Component<TemplatesView.Props, Template
               {template.default ? <Badge status="success">Default</Badge> : null}
             </div>
             <div style={{ width: "30%", textAlign: "right" }}>
-              <div style={{ display: "inline-block" }}>
-                <Button size="slim">Edit</Button>
-              </div>
-              <div style={{ display: "inline-block", paddingLeft: "20px" }}>
-                <Button size="slim" destructive>Remove</Button>
-              </div>
+              <Button size="slim" url={`/shopify/templates/${template.id}`}>Edit</Button>
             </div>
           </div>
       </ResourceList.Item>
@@ -109,7 +104,7 @@ export class TemplatesView extends React.Component<TemplatesView.Props, Template
   }
 }
 
-export namespace TemplatesView {
+export namespace TemplatesEditorView {
   export type TemplateTypes = "info"|"success"|"error";
   export interface Meta {
     title: string;

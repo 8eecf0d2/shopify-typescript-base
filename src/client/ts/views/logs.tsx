@@ -36,7 +36,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
     // await new Promise(r => setTimeout(() => r(), 1000));
     // this.setState({ loadingView: false });
 
-    resource.database.find.log.handler({ between: [new Date("2018-08-11"), new Date()] })
+    resource.database.find.handler({ model: "log", query: { between: [new Date("2018-08-11"), new Date()] }})
       .then(response => this.setState({ items: response.data.items }))
       .catch(error => console.log("error", error))
   }

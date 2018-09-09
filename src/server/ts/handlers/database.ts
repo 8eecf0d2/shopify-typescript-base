@@ -35,8 +35,8 @@ export const FindLogs = (context: Handler.Context): LogSchema[] => {
 
 export const FindTemplates = (context: Handler.Context): LogSchema[] => {
   return [
-    { id: "0", title: "Invoice Template", shopId: "*", content: "<h1>Invoice Title</h1>", default: false, createdAt: new Date(), updatedAt: new Date() },
-    { id: "1", title: "Packing Slip Template", shopId: "*", content: "<h1>Packing Slip Title</h1>", default: true, createdAt: new Date(), updatedAt: new Date() }
+    { id: "0", title: "Invoice Template", shopId: "*", content: "<h1>Invoice Title</h1><h4>{{order.total_price}}</h4>", default: false, createdAt: new Date(), updatedAt: new Date() },
+    { id: "1", title: "Packing Slip Template", shopId: "*", content: "<h1>Packing Slip Title</h1><h4>{{order.total_price}}</h4>", default: true, createdAt: new Date(), updatedAt: new Date() }
   ]
 }
 

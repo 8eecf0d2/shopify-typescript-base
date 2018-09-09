@@ -1757,6 +1757,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+liquidjs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/liquidjs/-/liquidjs-6.0.0.tgz#f3e2666f2575b6c581838f2baf72da64344f1df5"
+
 loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
