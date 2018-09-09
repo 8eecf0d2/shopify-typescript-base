@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const copyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = [{
-  entry: { bundle: "./src/client/ts/index.ts" },
+  entry: { client: "./src/client/ts/index.ts" },
   devtool: "source-map",
   mode: process.env.MODE || process.env.NODE_ENV,
   module: {
