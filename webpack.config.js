@@ -3,7 +3,7 @@ const serverConfig = require("./src/server/webpack.config.js");
 const databaseConfig = require("./src/database/webpack.config.js");
 
 module.exports = [
-  clientConfig,
+  ...clientConfig,
   serverConfig,
   databaseConfig,
 ];

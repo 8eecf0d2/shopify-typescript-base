@@ -13,6 +13,7 @@ const server = new WebServer(
 );
 
 /** Shopify Static Assets */
+server.static("/shopify/assets/css/highlight.css", "dist/highlight.css");
 server.static("/shopify/bundle.js", "dist/bundle.js");
 server.static("/shopify/bundle.js.map", "dist/bundle.js.map");
 server.static([
