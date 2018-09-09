@@ -17,7 +17,9 @@ server.static([
   "/shopify",
   "/shopify/logs",
   "/shopify/orders",
+  "/shopify/orders/:id",
   "/shopify/templates",
+  "/shopify/templates/:id",
   "/shopify/settings",
 ], "src/client/html/index.html");
 

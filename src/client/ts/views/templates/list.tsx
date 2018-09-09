@@ -18,6 +18,7 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
   };
 
   public async componentDidMount (): Promise<void> {
+    /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.database.find.handler({ model: "template" }))

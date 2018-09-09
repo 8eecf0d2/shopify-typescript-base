@@ -18,6 +18,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
   };
 
   public async componentDidMount (): Promise<void> {
+    /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.database.find.handler({ model: "template" }))

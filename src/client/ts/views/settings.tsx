@@ -14,11 +14,7 @@ export class SettingsView extends React.Component<SettingsView.Props, SettingsVi
     mapping: ""
   };
 
-  public async componentDidMount(): Promise<void> {
-    // this.setState({ loadingView: true });
-    // await new Promise(r => setTimeout(() => r(), 1000));
-    // this.setState({ loadingView: false });
-  }
+  public async componentDidMount(): Promise<void> {}
 
   public render(): JSX.Element {
     if(this.state.loadingView) {

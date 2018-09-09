@@ -1,18 +1,18 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderSchema, TemplateSchema } from "../../../shared/ts/shcema";
-import { resource } from "../resource";
-import { Printer } from "../printer";
-import * as util from "../util";
+import { OrderSchema, TemplateSchema } from "../../../../shared/ts/shcema";
+import { resource } from "../../resource";
+import { Printer } from "../../printer";
+import * as util from "../../util";
 
-export class OrdersView extends React.Component<OrdersView.Props, OrdersView.State> {
-  private meta: OrdersView.Meta = {
+export class OrdersListView extends React.Component<OrdersListView.Props, OrdersListView.State> {
+  private meta: OrdersListView.Meta = {
     title: "Orders",
     filters: []
   };
 
-  public state: OrdersView.State = {
+  public state: OrdersListView.State = {
     item: OrderSchema.empty(),
     items: [],
     selectedItems: [],
@@ -30,6 +30,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
   };
 
   public async componentDidMount (): Promise<void> {
+    /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.handler({ method: "GET", path: "/admin/orders.json?status=any" }))
@@ -129,7 +130,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
             modalOpen: true
           })
         }]}
-        onClick={() => this.setState({ item: order, modalOpen: true })}
+        url={`/shopify/orders/${order.id}`}
         >
           <div style={{ display: "flex", alignItems: "start" }}>
             <div>
@@ -162,19 +163,10 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
         open={this.state.modalOpen}
         onClose={() => this.setState({ modalOpen: false })}
         title={<TextStyle variation="strong">Order Preview</TextStyle>}
+        large
       >
         <Modal.Section>
           {<div dangerouslySetInnerHTML={{ __html: this.state.orderPreview }}></div>}
-          <TextContainer>
-            <pre style={{
-              border: "1px solid #dfe4e8",
-              borderRadius: "3px",
-              padding: "10px",
-              backgroundColor: "rgba(223, 227, 232, .3)"
-            }}>
-              {JSON.stringify(this.state.item, null, 2)}
-            </pre>
-          </TextContainer>
         </Modal.Section>
       </Modal>
     );
@@ -223,7 +215,7 @@ export class OrdersView extends React.Component<OrdersView.Props, OrdersView.Sta
 
 }
 
-export namespace OrdersView {
+export namespace OrdersListView {
   export type OrderTypes = "info"|"success"|"error";
   export interface Meta {
     title: string;
