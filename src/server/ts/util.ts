@@ -1,4 +1,5 @@
 import * as https from "https";
+import * as querystring from "querystring";
 
 export class Fetch<Payload = any> {
   constructor(
@@ -7,7 +8,6 @@ export class Fetch<Payload = any> {
 
   public async exec (payload?: Payload): Promise<any> {
     return new Promise((resolve, reject) => {
-
       let payloadStr: string;
       if(payload) {
         payloadStr = JSON.stringify(payload);

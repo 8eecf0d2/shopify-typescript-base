@@ -32,6 +32,13 @@ export class SettingsView extends React.Component<SettingsView.Props, SettingsVi
           loading: this.state.loadingSave,
           onAction: () => this.save(),
         }}
+        secondaryActions={[{
+          content: "Templates",
+          url: "/shopify/templates",
+        },{
+          content: "Settings",
+          url: "/shopify/settings",
+        }]}
       >
         <Layout>
           {this.renderEndpoint()}

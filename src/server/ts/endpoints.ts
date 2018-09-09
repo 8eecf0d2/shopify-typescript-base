@@ -68,7 +68,7 @@ export const endpoints: WebServer.Route.Options[] = [{
   /** ShopifyAuth */
   method: "post",
   path: "/api/shopify/proxy",
-  handler: ApiHandlerProxy([Handlers.Shopify.ProxyRoute])
+  handler: ApiHandlerProxy([Handlers.ShopifyProxy.ProxyRoute])
 },{
   /** Database */
   method: "post",

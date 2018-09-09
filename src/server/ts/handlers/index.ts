@@ -1,11 +1,11 @@
 import * as Database from "./database";
 import * as ShopifyAuth from "./shopify-auth";
-import * as Shopify from "./shopify";
+import * as ShopifyProxy from "./shopify-proxy";
 
 export const Handlers = {
   Database,
   ShopifyAuth,
-  Shopify,
+  ShopifyProxy,
 }
 
 export const Handler = {

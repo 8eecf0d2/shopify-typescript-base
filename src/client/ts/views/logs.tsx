@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { LogModel } from "../../../shared/ts/model";
+import { LogSchema } from "../../../shared/ts/shcema";
 import { resource } from "../resource";
 import { formatDate } from "../util";
 
@@ -18,7 +18,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
   };
 
   public state: LogsView.State = {
-    item: LogModel.empty(),
+    item: LogSchema.empty(),
     items: [],
     loadingView: false,
     modalOpen: false,
@@ -70,7 +70,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
     );
   }
 
-  private filter (items: LogModel[]): LogModel[] {
+  private filter (items: LogSchema.Object[]): LogSchema.Object[] {
     return items.filter(item => {
       let matches = true;
       if(this.state.searchValue) {
@@ -107,7 +107,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
     );
   }
 
-  private resourceListItem (item: LogModel): JSX.Element {
+  private resourceListItem (item: LogSchema.Object): JSX.Element {
     return (
       <ResourceList.Item
         accessibilityLabel={`View log details`}
@@ -144,7 +144,7 @@ export class LogsView extends React.Component<LogsView.Props, LogsView.State> {
               padding: "10px",
               backgroundColor: "rgba(223, 227, 232, .3)"
             }}>
-              {JSON.stringify(this.state.item.raw, null, 2)}
+              {JSON.stringify(this.state.item, null, 2)}
             </pre>
           </TextContainer>
         </Modal.Section>
@@ -202,8 +202,8 @@ export namespace LogsView {
     filters: Filter[];
   }
   export interface State {
-    item: LogModel;
-    items: LogModel[];
+    item: LogSchema.Object;
+    items: LogSchema.Object[];
     loadingView: boolean;
     modalOpen: boolean;
     searchValue: string;

@@ -24,10 +24,13 @@ export class Resource<RequestType = any, ResponseType = any> {
     return fetch(this.request, requestInit)
       .then(async response => {
         try {
+          const data = await response.json();
           if(response.ok) {
-            return { response: response, data: await response.json() }
+            console.log(`[fetch]: (ok) ${this.options.path}`);
+            console.log(data)
+            return { response: response, data: data }
           } else {
-            throw { response: response, data: await response.json() }
+            throw { response: response, data: data }
           }
         } catch(error) {
           console.error(error)
@@ -66,9 +69,3 @@ export const resource = {
     path: "/api/shopify/proxy"
   })
 }
-
-
-resource.shopify.handler({ path: "/admin/products.json", method: "GET" })
-  .then(response => {
-    console.log(response)
-  })
