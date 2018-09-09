@@ -1,5 +1,4 @@
 import { Fetch } from "../../../shared/ts/fetch";
-import { LogSchema } from "../../../shared/ts/shcema";
 import { invoiceTemplate, packingSlipTemplate } from "../../../shared/ts/stub/templates";
 import { Handler } from "./";
 
@@ -23,9 +22,9 @@ export const Find: Handler<DatabaseFindRequest, DatabaseFindResponse> = async (c
   };
 }
 
-export interface DatabaseFindRequest<ModelValue = string> extends Handler.Request {
-  model: ModelValue;
+export interface DatabaseFindRequest<SchemaType = string> extends Handler.Request {
+  schema: SchemaType;
 }
 export interface DatabaseFindResponse extends Handler.Response {
-  items: LogSchema[];
+  items: any[];
 }
