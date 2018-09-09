@@ -1,4 +1,5 @@
 export class Resource<RequestType = any, ResponseType = any> {
+  static cache: { [key: string]: any } = {};
   private request: Request;
 
   constructor(
@@ -21,14 +22,20 @@ export class Resource<RequestType = any, ResponseType = any> {
         "Content-Type": "application/json"
       }
     }
+    const key = JSON.stringify({ request: this.request, options: requestInit });
+    if(Resource.cache[key]) {
+      console.log(`[cache]: ${key}`, Resource.cache[key])
+      return Resource.cache[key];
+    }
     return fetch(this.request, requestInit)
       .then(async response => {
         try {
-          const data = await response.json();
+          const data = { response: response, data: await response.json() };
+          Resource.cache[key] = data;
           if(response.ok) {
-            return { response: response, data: data }
+            return data
           } else {
-            throw { response: response, data: data }
+            throw data
           }
         } catch(error) {
           console.error(error)
