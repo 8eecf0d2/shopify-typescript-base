@@ -26,8 +26,6 @@ export class Resource<RequestType = any, ResponseType = any> {
         try {
           const data = await response.json();
           if(response.ok) {
-            console.log(`[fetch]: (ok) ${this.options.path}`);
-            console.log(data)
             return { response: response, data: data }
           } else {
             throw { response: response, data: data }
