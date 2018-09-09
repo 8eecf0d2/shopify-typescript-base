@@ -47,7 +47,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
         title={this.meta.title}
         secondaryActions={[{
           content: "Templates",
-          url: "templates",
+          url: "/shopify/templates",
         },{
           content: "Settings",
           url: "/shopify/settings",
@@ -166,7 +166,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
         large
       >
         <Modal.Section>
-          {<div dangerouslySetInnerHTML={{ __html: this.state.orderPreview }}></div>}
+          <div dangerouslySetInnerHTML={{ __html: this.state.orderPreview }}></div>
         </Modal.Section>
       </Modal>
     );
