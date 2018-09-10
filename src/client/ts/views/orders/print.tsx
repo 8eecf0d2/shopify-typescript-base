@@ -91,7 +91,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
             <Heading>Templates</Heading>
             <ChoiceList
               allowMultiple
-              title={'While the customer is checking out'}
+              title={'Pick templates for printing'}
               choices={this.state.templates.map(template => ({label: template.title, value: template.id }))}
               selected={this.state.templatesSelected}
               onChange={(templatesSelected) => this.setState({ templatesSelected: templatesSelected }) }
@@ -107,33 +107,35 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
 
   private skeleton (): JSX.Element {
     return (
-      <Card sectioned>
-        <TextContainer>
-          <SkeletonBodyText />
-        </TextContainer>
-      </Card>
+      <Layout>
+        <Layout.Section>
+          <Card sectioned>
+            <TextContainer>
+              <SkeletonBodyText />
+            </TextContainer>
+          </Card>
+        </Layout.Section>
+        <Layout.Section secondary>
+          <Card sectioned>
+            <TextContainer>
+              <SkeletonBodyText />
+            </TextContainer>
+          </Card>
+        </Layout.Section>
+      </Layout>
     );
   }
 
   private async print (): Promise<void> {
     for(const preview of this.state.previews) {
-
-      console.log('preview', preview.title)
       const deferred = new util.Deferred();
 
-      const printWindow = window.open('', 'Print-Window');
-      printWindow.onbeforeunload = () => {
-        console.log("unload")
-        deferred.resolve();
-      }
-      printWindow.document.open();
-      printWindow.document.write('<html><body>' + preview.html + '</body></html>');
-      printWindow.document.close();
+      // TODO: show print dialog
+      deferred.resolve();
 
       await deferred.promise;
     }
   }
-
 }
 
 export namespace OrdersPrintView {

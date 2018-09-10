@@ -68,11 +68,14 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     return (
       <Card sectioned>
         <TextField
-          label="Store name"
+          label="Title"
           value={this.state.item.title}
           onChange={(title) => this.setState((prevState) => ({ item: { ...prevState.item, title: title }}))}
         />
         <div style={{ marginTop: "20px" }} className="editor">
+          <div style={{ marginBottom: "4px" }}>
+            <TextStyle>Template</TextStyle>
+          </div>
           <Editor
             value={this.state.item.content}
             onValueChange={(content: string) => this.setState((prevState) => ({ item: { ...prevState.item, content: content }}))}

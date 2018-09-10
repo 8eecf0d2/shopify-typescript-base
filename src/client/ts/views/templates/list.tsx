@@ -30,6 +30,10 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
     return (
       <Page
         title={this.meta.title}
+        primaryAction={{
+          content: 'New Template',
+          url: "/shopify/templates/new",
+        }}
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
