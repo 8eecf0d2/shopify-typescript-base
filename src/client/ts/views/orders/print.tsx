@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppliedFilter, Badge, Caption, Card, ChoiceList, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
+import { AppliedFilter, Badge, Button, Caption, Card, ChoiceList, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
 import { OrderSchema, TemplateSchema } from "../../../../shared/ts/shcema";
 import { resource } from "../../resource";
@@ -96,6 +96,9 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
               selected={this.state.templatesSelected}
               onChange={(templatesSelected) => this.setState({ templatesSelected: templatesSelected }) }
             />
+            <div style={{ paddingTop: "15px" }}>
+              <Button onClick={() => this.print()}>Print</Button>
+            </div>
           </Card>
         </Layout.Section>
       </Layout>
@@ -110,6 +113,25 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
         </TextContainer>
       </Card>
     );
+  }
+
+  private async print (): Promise<void> {
+    for(const preview of this.state.previews) {
+
+      console.log('preview', preview.title)
+      const deferred = new util.Deferred();
+
+      const printWindow = window.open('', 'Print-Window');
+      printWindow.onbeforeunload = () => {
+        console.log("unload")
+        deferred.resolve();
+      }
+      printWindow.document.open();
+      printWindow.document.write('<html><body>' + preview.html + '</body></html>');
+      printWindow.document.close();
+
+      await deferred.promise;
+    }
   }
 
 }

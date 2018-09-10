@@ -20,6 +20,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
   public state: TemplatesEditorView.State = {
     item: TemplateSchema.empty(),
     loadingView: false,
+    loadingSave: false,
   };
 
   public async componentDidMount (): Promise<void> {
@@ -40,6 +41,14 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
           content: "Templates",
           url: "/shopify/templates"
         }]}
+        primaryAction={{
+          content: 'Save',
+          loading: this.state.loadingSave,
+          onAction: () => Promise.resolve()
+            .then(() => this.setState({ loadingSave: true }))
+            .then(() => resource.database.save.handler({ schema: "templates", data: this.state.item }))
+            .then(() => this.setState({ loadingSave: false }))
+        }}
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
@@ -95,6 +104,7 @@ export namespace TemplatesEditorView {
   export interface State {
     item: TemplateSchema.Object;
     loadingView: boolean;
+    loadingSave: boolean;
   }
   export interface Props {
     match: {

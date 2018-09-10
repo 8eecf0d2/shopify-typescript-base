@@ -65,6 +65,9 @@ export const resource = {
   database: {
     find: new Resource<{ schema: string, query?: any }>({
       path: "/api/database/find"
+    }),
+    save: new Resource<{ schema: string, data: any }>({
+      path: "/api/database/save"
     })
   },
   shopify: new Resource<{ path: string, method: string, payload?: any }>({

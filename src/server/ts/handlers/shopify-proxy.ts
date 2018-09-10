@@ -23,6 +23,14 @@ export const ProxyRoute: Handler<ShopifyProxyRequest, ShopifyProxyResponse> = as
     }
   }).exec(context.request.payload);
 
+  if(response.errors) {
+    return {
+      ...context,
+      code: 500,
+      response: response
+    }
+  }
+
   return {
     ...context,
     code: 200,

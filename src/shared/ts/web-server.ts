@@ -16,13 +16,14 @@ export class WebServer {
     private httpPort: number,
     private httpsPort: number
   ) {
-    this.server.use(bodyparser.json())
+    this.server.use(bodyparser.json());
   }
 
   public route(options: WebServer.Route.Options): void {
+    const handlers = Array.isArray(options.handler) ? options.handler : [options.handler];
     this.server[options.method](
       options.path,
-      options.handler
+      ...handlers,
     );
     console.log(`[web-server]: routing "${options.path}"`);
   }
@@ -61,7 +62,7 @@ export namespace WebServer {
     export interface Options {
       method: WebServer.Route.Method;
       path: string|string[];
-      handler: WebServer.Route.Handler;
+      handler: WebServer.Route.Handler|WebServer.Route.Handler[];
     }
   }
 }
