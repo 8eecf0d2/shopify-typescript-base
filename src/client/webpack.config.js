@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const copyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = [{
   entry: { client: "./src/client/ts/index.ts" },
@@ -15,31 +14,6 @@ module.exports = [{
       }
     ]
   },
-  plugins: [
-    new copyWebpackPlugin([
-      {
-        from: './src/client/css/highlight.css',
-        to: 'dist/highlight.css',
-        toType: 'file',
-        transform (content, path) {
-          const text = Buffer.from(content)
-            .toString('utf8')
-            // replace comments, new lines, tabs
-            .replace(/\/\*(?:(?!\*\/)[\s\S])*\*\/|[\r\n\t]+/g, "")
-            // replace left hand spaces
-            .replace(/ {2,}/g, " ")
-            // replace spaces "{ prop:value; } {"
-            .replace(/ ([{:}]) /g, "$1")
-            // replace spaces "prop:value; prop:"
-            .replace(/([;,]) /g, "$1")
-            // replace spaces "prop: value"
-            .replace(/([:,]) /g, "$1")
-
-          return Buffer.from(text)
-        }
-      }
-    ])
-  ],
   resolve: {
     extensions: [ ".js", ".jsx", ".ts", ".tsx" ],
   },
