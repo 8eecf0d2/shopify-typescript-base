@@ -74,7 +74,7 @@ yarn run monitor<:server|database><:env>
 1. Create a new **App** from the partner dashboard
 2. Set the **App Url** to `https://localhost:2443/shopify`
 3. Ensure the **Areas** are set to `Shopify Admin`
-4. Add the **whitelist** to `https://localhost:2443/shopify/callback`
+4. Update the **whitelist** to include `https://localhost:2443/shopify/callback`
 5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your **Shopify App**.
 
 #### Shopify Development Store
@@ -87,7 +87,7 @@ yarn run monitor<:server|database><:env>
 
 You cannot view your app within the Shopify dashboard using `localhost` as the server due to CSP violations, to resolve this you must publicly expose your server, I'd recommend using [localtunnel](https://github.com/localtunnel/localtunnel) - afterwards update the `.env` file and **Shopify App** to match the public URL.
 
-### Services
+### Notable Services
 
 | Service           | Endpoint      |
 | ----------------- | ------------- |
