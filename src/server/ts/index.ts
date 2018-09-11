@@ -1,6 +1,8 @@
+import * as path from "path";
 import { WebServer } from "../../shared/ts/web-server";
 import { dotEnvConfig } from "../../shared/ts/env";
 import { endpoints } from "./endpoints";
+import { CheckShopifyAuth } from "./middleware"
 
 process.env = {
   ...process.env,
@@ -12,12 +14,19 @@ const server = new WebServer(
   parseInt(process.env.SERVER_HTTPS_PORT)
 );
 
+server.route({
+  method: "get",
+  path: "/shopify",
+  handler: [CheckShopifyAuth, (request, response) => {
+    return request.query.shop ? response.sendFile(path.resolve("src/client/html/index.html")) : response.redirect("/shopify/install");
+  }]
+});
+
 /** Shopify Static Assets */
 server.static("/shopify/assets/css/highlight.css", "dist/highlight.css");
 server.static("/shopify/client.js", "dist/client.js");
 server.static("/shopify/client.js.map", "dist/client.js.map");
 server.static([
-  "/shopify",
   "/shopify/install",
   "/shopify/orders",
   "/shopify/orders/:id",
