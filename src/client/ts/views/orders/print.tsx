@@ -134,8 +134,11 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     for(const templateSelected of this.state.templatesSelected) {
       const deferred = new util.Deferred();
       const preview = this.state.previews.find(preview => preview.id === templateSelected);
+
       window.onafterprint = () => deferred.resolve();
+
       this.setState({ preview: preview.html }, () => window.print());
+
       await deferred.promise;
     }
   }
