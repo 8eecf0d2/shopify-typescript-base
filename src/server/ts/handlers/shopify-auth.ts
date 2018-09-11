@@ -4,7 +4,7 @@ import * as uuid from "uuid";
 import { Fetch } from "../../../shared/ts/fetch";
 import { Handler } from "./";
 
-export const InstallRoute: Handler<ShopifyAuthInstallRequest, ShopifyAuthInstallResponse> = async (context) => {
+export const SetupRoute: Handler<ShopifyAuthSetupRequest, ShopifyAuthSetupResponse> = async (context) => {
   if(!context.request.shop) {
     throw new Handler.Error("Missing `shop` param.", 400);
   }
@@ -22,10 +22,10 @@ export const InstallRoute: Handler<ShopifyAuthInstallRequest, ShopifyAuthInstall
   };
 }
 
-export interface ShopifyAuthInstallRequest extends Handler.Request {
+export interface ShopifyAuthSetupRequest extends Handler.Request {
   shop: string;
 }
-export interface ShopifyAuthInstallResponse extends Handler.Response {}
+export interface ShopifyAuthSetupResponse extends Handler.Response {}
 
 export const CallbackRoute: Handler<ShopifyAuthCallbackRequest, ShopifyAuthCallbackResponse> = async (context) => {
   if(context.request.state !== context.session.cookies.secret) {

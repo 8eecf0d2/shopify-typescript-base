@@ -58,7 +58,7 @@ export const endpoints: WebServer.Route.Options[] = [{
   /** Shopify Auth */
   method: "get",
   path: "/shopify/setup",
-  handler: ApiHandlerProxy([Handlers.ShopifyAuth.InstallRoute])
+  handler: ApiHandlerProxy([Handlers.ShopifyAuth.SetupRoute])
 },{
   method: "get",
   path: "/shopify/callback",
