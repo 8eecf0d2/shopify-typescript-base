@@ -86,26 +86,26 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
         accessibilityLabel={`View template details`}
         id={template.id}
         url={`/shopify/templates/${template.id}`}
-        >
-          <div style={{ display: "flex", alignItems: "start" }}>
-            <div style={{ width: "25%" }}>
-              <TextStyle variation="strong">{template.title}</TextStyle>
+      >
+        <div style={{ display: "flex", alignItems: "start" }}>
+          <div style={{ width: "25%" }}>
+            <TextStyle variation="strong">{template.title}</TextStyle>
+          </div>
+          <div style={{ width: "25%", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
+            <TextStyle variation="subdued">{util.formatDate(template.updatedAt) || <span>&#8212;</span>}</TextStyle>
+          </div>
+          <div style={{ width: "20%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
+            {template.default ? <Badge status="success">Default</Badge> : null}
+          </div>
+          <div style={{ width: "30%", textAlign: "right" }}>
+            <div style={{ display: "inline-block" }}>
+              <Button size="slim" plain onClick={() => {}}>Set as Default</Button>
             </div>
-            <div style={{ width: "25%", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
-              <TextStyle variation="subdued">{util.formatDate(template.updatedAt) || <span>&#8212;</span>}</TextStyle>
-            </div>
-            <div style={{ width: "20%", paddingTop: "5px", paddingLeft: "20px", textAlign: template.title ? "left" : "center", textOverflow: "truncate" }}>
-              {template.default ? <Badge status="success">Default</Badge> : null}
-            </div>
-            <div style={{ width: "30%", textAlign: "right" }}>
-              <div style={{ display: "inline-block" }}>
-                <Button size="slim" plain onClick={() => {}}>Set as Default</Button>
-              </div>
-              <div style={{ display: "inline-block", paddingLeft: "20px" }}>
-                <Button size="slim" url={`/shopify/templates/${template.id}`}>Edit</Button>
-              </div>
+            <div style={{ display: "inline-block", paddingLeft: "20px" }}>
+              <Button size="slim" url={`/shopify/templates/${template.id}`}>Edit</Button>
             </div>
           </div>
+        </div>
       </ResourceList.Item>
     );
   }
