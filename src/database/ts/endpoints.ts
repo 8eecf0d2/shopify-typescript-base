@@ -30,44 +30,112 @@ export const endpoints: WebServer.Route.Options[] = [{
     const query: SaveQuery = request.body;
     const shop: ShopSchema.Object = query._shop;
 
-    const CreateItem = (schema: string, shop: string, item: any): any => {
-      item = Object.assign({}, item, { id: uuid.v4(), shop: shop });
-      database.get(schema)
-        .push({
-          ...item,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        })
-        .write();
+    let result: boolean;
 
-      return true;
+    switch(query.schema) {
+      case "shops":
+        result = SaveShop(query);
+        break;
+      case "templates":
+        result = SaveTemplate(query);
+        break;
     }
-
-    const UpdateItem = (schema: string, shop: string, item: any) => {
-      const exist = database.get(schema)
-        .find({ id: item.id, shop: shop })
-        .value()
-
-      if(!exist) {
-        return false
-      }
-
-      database.get(schema)
-        .find({ id: item.id, shop: shop })
-        .assign({
-          ...item,
-          updatedAt: new Date(),
-        })
-        .write();
-
-      return true;
-    }
-
-    const result = !query.data.id ? CreateItem(query.schema, query._shop.id, query.data) : UpdateItem(query.schema, query._shop.id, query.data);
 
     return result ? response.status(200).json({}) :  response.status(500).json("Unable to save item.");
   }]
 }]
+
+export const SaveTemplate = (query: SaveQuery) => {
+  return !query.data.id ? CreateTemplate(query) : UpdateTemplate(query);
+}
+
+export const CreateTemplate = (query: SaveQuery): boolean => {
+  const ts = new Date().getTime();
+  database.get("templates")
+    .push({
+      id: uuid.v4(),
+      title: query.data.title,
+      contnet: query.data.content,
+      shop: query.data.shop,
+      default: query.data.default,
+      createdAt: ts,
+      updatedAt: ts,
+    })
+    .write();
+
+  return true;
+}
+
+export const UpdateTemplate = (query: SaveQuery): boolean => {
+  const exist = database.get("templates")
+    .find({ id: query.data.id, shop: query.data.shop })
+    .value()
+
+  if(!exist) {
+    return false
+  }
+
+  database.get("templates")
+    .find({ id: query.data.id, shop: query.data.shop })
+    .assign({
+      title: query.data.title,
+      content: query.data.content,
+      default: query.data.default,
+      updatedAt: new Date().getTime(),
+    })
+    .write();
+
+  return true;
+}
+
+export const SaveShop = (query: SaveQuery): boolean => {
+  return !query.data.id ? CreateShop(query) : UpdateShop(query);
+}
+
+export const CreateShop = (query: SaveQuery): boolean => {
+  const ts = new Date().getTime();
+  const shop: ShopSchema.Object = {
+    id: uuid.v4(),
+    domain: query.data.shop,
+    accessToken: query.data.accessToken,
+    createdAt: ts,
+    updatedAt: ts,
+  }
+
+  database.get("shops")
+    .push(shop)
+    .write();
+
+  const defaultTemplates = database.get("default_templates")
+    .filter({ shop: "*" })
+    .value()
+    .map(template => ({ ...template, shop: shop.id }));
+
+  database.get("templates")
+    .push(defaultTemplates)
+    .write();
+
+  return true;
+}
+
+export const UpdateShop = (query: SaveQuery): boolean => {
+  const exist = database.get("shops")
+    .find({ id: query.data.id })
+    .value()
+
+  if(!exist) {
+    return false
+  }
+
+  database.get("shops")
+    .find({ id: query.data.id, shop: query.data.shop })
+    .assign({
+      domain: query.data.domain,
+      accessToken: query.data.accessToken,
+      updatedAt: new Date().getTime(),
+    })
+    .write();
+}
 
 export interface DatabaseQuery {
   schema: "shops"|"logs"|"templates";
@@ -83,5 +151,5 @@ export interface SaveQuery extends DatabaseQuery {
   data: {
     id: string;
     shop: string;
-  };
+  } & any;
 }
