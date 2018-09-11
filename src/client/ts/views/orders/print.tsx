@@ -101,7 +101,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
               onChange={(templatesSelected) => this.setState({ templatesSelected: templatesSelected }) }
             />
             <div style={{ paddingTop: "15px" }}>
-              <Button onClick={() => this.print()}>Print</Button>
+              <Button onClick={() => this.print()} disabled={this.state.templatesSelected.length === 0}>Print</Button>
             </div>
           </Card>
         </Layout.Section>
