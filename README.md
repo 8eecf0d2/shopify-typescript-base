@@ -92,10 +92,7 @@ You cannot view your app within the Shopify dashboard using `localhost` as the s
 | Service           | Endpoint      |
 | ----------------- | ------------- |
 | Shopify App       | [`http://localhost:2443/shopify`](http://localhost:2443/shopify) |
-| Shopify Install   | [`http://localhost:2443/shopify/install?shop=<shopify_store_url>`](http://localhost:2443/shopify/install?shop=<shopify_store_url>) |
-| Shopify Callback  | [`http://localhost:2443/shopify/callback`](http://localhost:2443/shopify/callback) |
-| Shopify API Proxy | [`http://localhost:2443/api/shopify`](http://localhost:2443/api/shopify) |
-| API Endpoint      | [`http://localhost:2443/api`](http://localhost:2443/api) |
+| Shopify Proxy     | [`http://localhost:2443/api/shopify`](http://localhost:2443/api/shopify) |
 
 ### Development
 
