@@ -6,9 +6,10 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-liquid';
 import 'prismjs/components/prism-clike';
 
-import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextField, TextStyle } from "@shopify/polaris";
+import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, Subheading, TextContainer, TextField, TextStyle } from "@shopify/polaris";
 
 import { TemplateSchema } from "../../../../shared/ts/shcema";
+import { Printer } from "../../printer";
 import { resource } from "../../resource";
 import * as util from "../../util";
 
@@ -19,6 +20,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
 
   public state: TemplatesEditorView.State = {
     item: TemplateSchema.empty(),
+    variables: {},
     loadingView: false,
     loadingSave: false,
   };
@@ -30,6 +32,8 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
       .then(() => resource.database.find.handler({ schema: "templates", query: { id: this.props.match.params.id } }))
       .then((response) => this.setState({ item: response.data.items[0] }))
       .then(() => this.setState({ loadingView: false }))
+      .then(() => Printer.variables())
+      .then((variables) => this.setState({ variables: variables }))
       .catch((error) => console.log("error", error))
   }
 
@@ -52,10 +56,6 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
-        },{
-          content: "Template Variables",
-          /** TODO: Show variable modal */
-          onAction: () => {}
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content() }
@@ -70,25 +70,37 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     };
 
     return (
-      <Card sectioned>
-        <TextField
-          label="Title"
-          value={this.state.item.title}
-          onChange={(title) => this.setState((prevState) => ({ item: { ...prevState.item, title: title }}))}
-        />
-        <div style={{ marginTop: "20px" }} className="editor">
-          <div style={{ marginBottom: "4px" }}>
-            <TextStyle>Template</TextStyle>
-          </div>
-          <Editor
-            value={this.state.item.content}
-            onValueChange={(content: string) => this.setState((prevState) => ({ item: { ...prevState.item, content: content }}))}
-            highlight={(code: string) => highlight(code, languages.liquid)}
-            padding={10}
-            style={{ fontFamily: "monospace", fontSize: "14px" }}
-          />
-        </div>
-      </Card>
+      <Layout>
+        <Layout.Section>
+          <Card sectioned>
+            <TextField
+              label="Title"
+              value={this.state.item.title}
+              onChange={(title) => this.setState((prevState) => ({ item: { ...prevState.item, title: title }}))}
+            />
+            <div style={{ marginTop: "20px" }} className="editor">
+              <div style={{ marginBottom: "4px" }}>
+                <TextStyle>Template</TextStyle>
+              </div>
+              <Editor
+                value={this.state.item.content}
+                onValueChange={(content: string) => this.setState((prevState) => ({ item: { ...prevState.item, content: content }}))}
+                highlight={(code: string) => highlight(code, languages.liquid)}
+                padding={10}
+                style={{ fontFamily: "monospace", fontSize: "14px" }}
+              />
+            </div>
+          </Card>
+        </Layout.Section>
+        <Layout.Section secondary>
+          <Card sectioned>
+            <Subheading>Variables</Subheading>
+            <TextStyle variation="subdued">
+              <pre>{JSON.stringify(this.state.variables, null, 2)}</pre>
+            </TextStyle>
+          </Card>
+        </Layout.Section>
+      </Layout>
     )
   }
 
@@ -110,6 +122,7 @@ export namespace TemplatesEditorView {
   }
   export interface State {
     item: TemplateSchema.Object;
+    variables: any;
     loadingView: boolean;
     loadingSave: boolean;
   }
