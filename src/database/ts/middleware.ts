@@ -26,7 +26,7 @@ export const CheckShop: WebServer.Route.Handler = (request, response, next) => {
       .find({ domain: query.shop })
       .value();
 
-    if(!shop) {
+    if(!shop && query.schema !== "shops") {
       return response.status(400).json({ error: `Shop "${query.shop}" is invalid.`});
     }
 

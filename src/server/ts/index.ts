@@ -18,7 +18,7 @@ server.static("/shopify/client.js", "dist/client.js");
 server.static("/shopify/client.js.map", "dist/client.js.map");
 server.static([
   "/shopify",
-  "/shopify/logs",
+  "/shopify/install",
   "/shopify/orders",
   "/shopify/orders/:id",
   "/shopify/templates",

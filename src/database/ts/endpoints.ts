@@ -33,7 +33,11 @@ export const endpoints: WebServer.Route.Options[] = [{
     const CreateItem = (schema: string, shop: string, item: any): any => {
       item = Object.assign({}, item, { id: uuid.v4(), shop: shop });
       database.get(schema)
-        .push(item)
+        .push({
+          ...item,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
         .write();
 
       return true;
@@ -50,7 +54,10 @@ export const endpoints: WebServer.Route.Options[] = [{
 
       database.get(schema)
         .find({ id: item.id, shop: shop })
-        .assign(item)
+        .assign({
+          ...item,
+          updatedAt: new Date(),
+        })
         .write();
 
       return true;

@@ -20,8 +20,9 @@ export class App extends React.Component<App.Props> {
         >
           <Switch>
             <Route exact path="/shopify">
-              <Redirect to="/shopify/orders"></Redirect>
+              <Redirect to="/shopify/install"></Redirect>
             </Route>
+            <Route exact path="/shopify/install" component={Views.InstallView} />
             <Route exact path="/shopify/orders" component={Views.OrdersListView} />
             <Route exact path="/shopify/orders/:id" component={Views.OrdersPrintView} />
             <Route exact path="/shopify/templates" component={Views.TemplatesListView} />

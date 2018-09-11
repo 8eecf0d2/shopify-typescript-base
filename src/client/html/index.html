@@ -7,10 +7,30 @@
     <link rel="stylesheet" type="text/css" href="https://sdks.shopifycdn.com/polaris/2.8.0/polaris.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.css">
     <style type="text/css">
+      .editor {
+        min-height: 125px;
+      }
       .editor textarea {
         border: 1px solid #c4cdd5 !important;
         border-radius: 3px;
         outline: none;
+        min-height: 100px;
+      }
+      #printarea {
+        display: none;
+      }
+      @media print {
+        #printarea {
+          display: block;
+          height: 100%;
+          width: 100vh;
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin: 0;
+          background-color: white;
+          z-index: 999;
+        }
       }
     </style>
 </head>

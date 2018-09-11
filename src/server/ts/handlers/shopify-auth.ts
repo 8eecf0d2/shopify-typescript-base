@@ -41,10 +41,41 @@ export const CallbackRoute: Handler<ShopifyAuthCallbackRequest, ShopifyAuthCallb
   context.session.cookies.shop = context.request.shop;
   context.session.cookies.token = await getShopifyAccessToken(context.request.shop, context.request.code);
 
+  /** TODO: Create shop in database */
+
+  const shopExists = await new Fetch({
+    host: process.env.DATABASE_ADDRESS,
+    path: "/find",
+    port: process.env.DATABASE_HTTPS_PORT,
+    method: "POST"
+  }).exec({
+    schema: "shops",
+    shop: context.request.shop,
+  });
+
+  const oldShopData = shopExists.items[0];
+
+  let shopData = {
+    id: oldShopData ? oldShopData.id : undefined,
+    domain: context.request.shop,
+    accessToken: context.session.cookies.token
+  };
+
+  const saveShop = await new Fetch({
+    host: process.env.DATABASE_ADDRESS,
+    path: "/save",
+    port: process.env.DATABASE_HTTPS_PORT,
+    method: "POST"
+  }).exec({
+    data: shopData,
+    schema: "shops",
+    shop: context.request.shop,
+  });
+
   return {
     ...context,
     code: 200,
-    redirect: "/shopify"
+    redirect: "/shopify/orders"
   };
 }
 
@@ -77,4 +108,3 @@ const getShopifyAccessToken = async (shop: string, code: string) => {
 
   return request.access_token;
 }
-

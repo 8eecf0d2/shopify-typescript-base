@@ -16,6 +16,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     item: OrderSchema.empty(),
     templates: [],
     templatesSelected: [],
+    preview: "",
     previews: [],
     orderPreview: "",
     loadingView: false,
@@ -54,19 +55,22 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
 
   public render (): JSX.Element {
     return (
-      <Page
-        title={this.meta.title}
-        breadcrumbs={[{
-          content: "Orders",
-          url: "/shopify/orders"
-        }]}
-        secondaryActions={[{
-          content: "Templates",
-          url: "/shopify/templates",
-        }]}
-      >
-        {this.state.loadingView ? this.skeleton() : this.content()}
-      </Page>
+      <React.Fragment>
+        <Page
+          title={this.meta.title}
+          breadcrumbs={[{
+            content: "Orders",
+            url: "/shopify/orders"
+          }]}
+          secondaryActions={[{
+            content: "Templates",
+            url: "/shopify/templates",
+          }]}
+        >
+          {this.state.loadingView ? this.skeleton() : this.content()}
+        </Page>
+        <div id="printarea" dangerouslySetInnerHTML={{ __html: this.state.preview }}></div>
+      </React.Fragment>
     );
   }
 
@@ -127,12 +131,11 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
   }
 
   private async print (): Promise<void> {
-    for(const preview of this.state.previews) {
+    for(const templateSelected of this.state.templatesSelected) {
       const deferred = new util.Deferred();
-
-      // TODO: show print dialog
-      deferred.resolve();
-
+      const preview = this.state.previews.find(preview => preview.id === templateSelected);
+      window.onafterprint = () => deferred.resolve();
+      this.setState({ preview: preview.html }, () => window.print());
       await deferred.promise;
     }
   }
@@ -148,6 +151,7 @@ export namespace OrdersPrintView {
     item: OrderSchema.Object;
     templates: TemplateSchema.Object[];
     templatesSelected: any[];
+    preview: string;
     previews: (TemplateSchema.Object & { html: string })[];
     orderPreview: string;
     loadingView: boolean;

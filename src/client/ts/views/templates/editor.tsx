@@ -52,6 +52,10 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
         secondaryActions={[{
           content: "Orders",
           url: "/shopify/orders",
+        },{
+          content: "Template Variables",
+          /** TODO: Show variable modal */
+          onAction: () => {}
         }]}
       >
         {this.state.loadingView ? this.skeleton() : this.content() }

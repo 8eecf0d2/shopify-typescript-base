@@ -55,17 +55,16 @@ const ApiSessionCheck: Handler = (context) => {
 }
 
 export const endpoints: WebServer.Route.Options[] = [{
-  /** ShopifyAuth */
+  /** Shopify Auth */
   method: "get",
-  path: "/shopify/install",
+  path: "/shopify/setup",
   handler: ApiHandlerProxy([Handlers.ShopifyAuth.InstallRoute])
 },{
-  /** ShopifyAuth */
   method: "get",
   path: "/shopify/callback",
   handler: ApiHandlerProxy([Handlers.ShopifyAuth.CallbackRoute])
 },{
-  /** ShopifyAuth */
+  /** Shopify Proxy */
   method: "post",
   path: "/api/shopify/proxy",
   handler: ApiHandlerProxy([Handlers.ShopifyProxy.ProxyRoute])
