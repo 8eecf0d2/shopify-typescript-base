@@ -21,15 +21,16 @@
       }
       @media print {
         #printarea {
+          position: absolute;
           display: block;
+          z-index: 999;
           height: 100%;
           width: 100vh;
-          position: absolute;
           top: 0;
           left: 0;
           margin: 0;
+          padding: 20px;
           background-color: white;
-          z-index: 999;
         }
       }
     </style>
