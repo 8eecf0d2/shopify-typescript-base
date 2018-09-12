@@ -31,9 +31,9 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.database.find.handler({ schema: "templates", query: { id: this.props.match.params.id } }))
       .then((response) => this.setState({ item: response.data.items[0] }))
-      .then(() => this.setState({ loadingView: false }))
       .then(() => Printer.variables())
-      .then((variables) => this.setState({ variables: variables }))
+      .then((variables) => this.setState({ variables: this.flattenVariables(variables) }))
+      .then(() => this.setState({ loadingView: false }))
       .catch((error) => console.log("error", error))
   }
 
@@ -95,9 +95,13 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
         <Layout.Section secondary>
           <Card sectioned>
             <Subheading>Variables</Subheading>
-            <TextStyle variation="subdued">
-              <pre>{JSON.stringify(this.state.variables, null, 2)}</pre>
-            </TextStyle>
+            {Object.keys(this.state.variables).map((key, index) => {
+              return (
+                <div key={index} style={{ width: "100%" }}>
+                  <TextStyle variation="subdued">{key}</TextStyle>
+                </div>
+              )
+            })}
           </Card>
         </Layout.Section>
       </Layout>
@@ -112,6 +116,29 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
         </TextContainer>
       </Card>
     );
+  }
+
+  /** credit: https://gist.github.com/gdibble/9e0f34f0bb8a9cf2be43 */
+  private flattenVariables (ob: any) {
+    const data: any = {};
+    let flatObject;
+    for (const i in ob) {
+      if (!ob.hasOwnProperty(i)) {
+        continue;
+      }
+      if ((typeof ob[i]) === 'object') {
+        flatObject = this.flattenVariables(ob[i]);
+        for (const x in flatObject) {
+          if (!flatObject.hasOwnProperty(x)) {
+            continue;
+          }
+          data[i + (!!isNaN(parseInt(x)) ? '.' + x : '')] = flatObject[x];
+        }
+      } else {
+        data[i] = ob[i];
+      }
+    }
+    return data;
   }
 }
 
