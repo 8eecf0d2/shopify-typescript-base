@@ -4,6 +4,7 @@ import { AppliedFilter, Badge, Button, Caption, Card, ChoiceList, Filter, Filter
 import { OrderSchema, TemplateSchema } from "../../../../shared/ts/shcema";
 import { resource } from "../../resource";
 import { Printer } from "../../printer";
+import { Frame } from "../../frame";
 import * as util from "../../util";
 
 export class OrdersPrintView extends React.Component<OrdersPrintView.Props, OrdersPrintView.State> {
@@ -69,7 +70,10 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
         >
           {this.state.loadingView ? this.skeleton() : this.content()}
         </Page>
-        <div id="printarea" dangerouslySetInnerHTML={{ __html: this.state.preview }}></div>
+
+        <Frame id="printarea">
+          <div dangerouslySetInnerHTML={{ __html: this.state.preview }}/>
+        </Frame>
       </React.Fragment>
     );
   }
@@ -82,10 +86,14 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
           return (
             <Card sectioned key={preview.id}>
               <Heading>{preview.title}</Heading>
-              <div
-                style={{ border: "1px solid #dfe3e8", padding: "20px", marginTop: "12px" }}
-                dangerouslySetInnerHTML={{ __html: preview.html }}
-              />
+              <Frame style={{
+                border: "1px solid #dfe3e8",
+                marginTop: "12px",
+                width: "100%",
+                height: "100%",
+              }}>
+                <div style={{padding: "20px"}} dangerouslySetInnerHTML={{ __html: preview.html }}/>
+              </Frame>
             </Card>
           )
         })}
