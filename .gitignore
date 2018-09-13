@@ -1,5 +1,7 @@
 node_modules/
-dist/
-.env
-certificates/
-database.json
+.certificates/
+.serverless/
+.webpack/
+.types/
+
+serverless.env.yml

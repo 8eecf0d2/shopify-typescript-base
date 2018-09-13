@@ -1,0 +1,45 @@
+service: shopify-server
+app: shopify
+tenant: 8eecf0d2
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  region: ${env:AWS_REGION}
+  profile: ${env:AWS_PROFILE}
+  runtime: ${env:AWS_RUNTIME}
+
+functions:
+  shopify-setup:
+    handler: src/ts/functions/shopify/setup.handler
+    events:
+      - http:
+          method: get
+          path: api/shopify/setup
+          integration: lambda-proxy
+  shopify-callback:
+    handler: src/ts/functions/shopify/callback.handler
+    events:
+      - http:
+          method: get
+          path: api/shopify/callback
+          integration: lambda-proxy
+  shopify-proxy:
+    handler: src/ts/functions/shopify/proxy.handler
+    events:
+      - http:
+          method: get
+          path: api/shopify/proxy
+          integration: lambda
+
+custom:
+  serverless-offline:
+    httpsProtocol: ".certificates"
+    host: ${env:API_ADDRESS}
+    port: ${env:API_HTTPS_PORT}
+  dotenv:
+    path: ../.env

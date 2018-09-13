@@ -1,7 +1,0 @@
-{
-  "extends": "tslint:latest",
-  "rules": {
-    "no-namespace": false,
-    "interface-name": [true, "never-prefix"]
-  }
-}
