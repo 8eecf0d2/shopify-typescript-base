@@ -1,37 +1,60 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import * as util from "./util";
 
 export class Frame extends React.Component<Frame.Props, Frame.State> {
-  public frame: HTMLIFrameElement;
+  public iframe: HTMLIFrameElement;
   public div = document.createElement('div');
 
   public state = {
-    height: "0%"
+    height: "0%",
   }
+
   componentDidMount () {
-    this.frame.contentDocument.body.appendChild(this.div);
-    //@ts-ignore
-    ReactDOM.render(this.props.children, this.div, () => {
-      this.setState({ height: `${this.frame.contentDocument.body.scrollHeight}px` });
-      Object.assign(this.frame.contentDocument.body.style, {
-        fontFamily: "Helvetica",
-        overflow: "hidden",
-      })
+    this.iframe.contentDocument.body.appendChild(this.div);
+
+    ReactDOM.render((
+      <React.Fragment>
+        {this.props.children}
+      </React.Fragment>
+    ), this.div, () => this.handleChildrenRender());
+  }
+
+  public handleChildrenRender () {
+    this.setState({ height: `${this.iframe.contentDocument.body.scrollHeight}px` });
+    Object.assign(this.iframe.contentDocument.body.style, {
+      fontFamily: "Helvetica",
+      overflow: "hidden",
+    })
+  }
+
+  public async print(html: string): Promise<{}> {
+    const deferred = new util.Deferred();
+
+    this.iframe.contentWindow.onafterprint = () => deferred.resolve();
+
+    ReactDOM.render((
+      <React.Fragment>
+        <div dangerouslySetInnerHTML={{ __html: html }}/>
+      </React.Fragment>
+    ), this.div, () => {
+      this.iframe.contentWindow.print();
     });
+    deferred.resolve();
+
+    return deferred.promise;
   }
 
   render(): JSX.Element {
-    // if(this.frame) {
-    // }
-    // console.log(this.state)
+    const style = {
+      ...this.props.style,
+      height: this.state.height,
+    }
     return (
       <iframe
-        id={this.props.id}
-        style={{
-          ...this.props.style,
-          height: this.state.height,
-        }}
-        ref={frame => this.frame = frame}
+        className={this.props.className}
+        style={style}
+        ref={iframe => this.iframe = iframe}
       />
     )
   }
@@ -39,7 +62,7 @@ export class Frame extends React.Component<Frame.Props, Frame.State> {
 
 export namespace Frame {
   export interface Props {
-    id?: string;
+    className?: string;
     style?: React.CSSProperties;
   }
   export interface State {

@@ -10,8 +10,10 @@ import * as util from "../../util";
 export class OrdersPrintView extends React.Component<OrdersPrintView.Props, OrdersPrintView.State> {
   private meta: OrdersPrintView.Meta = {
     title: `Order #${this.props.match.params.id}`,
-    filters: []
+    filters: [],
   };
+
+  public frame: Frame;
 
   public state: OrdersPrintView.State = {
     item: OrderSchema.empty(),
@@ -70,15 +72,31 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
         >
           {this.state.loadingView ? this.skeleton() : this.content()}
         </Page>
-
-        <Frame id="printarea">
-          <div dangerouslySetInnerHTML={{ __html: this.state.preview }}/>
-        </Frame>
+        <Frame style={{display: "none"}} ref={frame => this.frame = frame}></Frame>
       </React.Fragment>
     );
   }
 
   private content (): JSX.Element {
+    const stylecontent = `
+      hr {
+        clear: both;
+        overflow: hidden;
+        margin: 1.5em 0 1.5em 0;
+        border-bottom: 1px solid black;
+        height: 0;
+      }
+      table {
+        border: 1px solid #000;
+        margin: 0 0 0 0;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      table th, table td {
+        border-bottom: 1px solid black;
+      }
+    `
     return (
       <Layout>
         <Layout.Section>
@@ -92,7 +110,8 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
                 width: "100%",
                 height: "100%",
               }}>
-                <div style={{padding: "20px"}} dangerouslySetInnerHTML={{ __html: preview.html }}/>
+                <style>{stylecontent}</style>
+                <div style={{padding: "10px"}} dangerouslySetInnerHTML={{ __html: preview.html }}/>
               </Frame>
             </Card>
           )
@@ -140,14 +159,8 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
 
   private async print (): Promise<void> {
     for(const templateSelected of this.state.templatesSelected) {
-      const deferred = new util.Deferred();
       const preview = this.state.previews.find(preview => preview.id === templateSelected);
-
-      window.onafterprint = () => deferred.resolve();
-
-      this.setState({ preview: preview.html }, () => window.print());
-
-      await deferred.promise;
+      await this.frame.print(preview.html)
     }
   }
 }
