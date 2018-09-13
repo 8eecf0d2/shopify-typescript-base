@@ -2,7 +2,7 @@ import { Fetch } from "../../../shared/ts/fetch";
 import { invoiceTemplate, packingSlipTemplate } from "../../../shared/ts/stub/templates";
 import { Handler } from "./";
 
-export const Find: Handler<DatabaseFindRequest, DatabaseFindResponse> = async (context) => {
+export const DatabaseFindRoute: Handler<DatabaseFindRequest, DatabaseFindResponse> = async (context) => {
   const response = await new Fetch({
     host: process.env.DATABASE_ADDRESS,
     path: "/find",
@@ -31,7 +31,7 @@ export interface DatabaseFindResponse extends Handler.Response {
   items: any[];
 }
 
-export const Save: Handler<DatabaseSaveRequest, DatabaseSaveResponse> = async (context) => {
+export const DatabaseSaveRoute: Handler<DatabaseSaveRequest, DatabaseSaveResponse> = async (context) => {
   const response = await new Fetch({
     host: process.env.DATABASE_ADDRESS,
     path: "/save",

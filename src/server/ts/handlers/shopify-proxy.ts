@@ -5,7 +5,7 @@ import { Handler } from "./";
  * ProxyRoute will forward requests from client to Shopify API
  * learn more: https://help.shopify.com/en/api/reference
  */
-export const ProxyRoute: Handler<ShopifyProxyRequest, ShopifyProxyResponse> = async (context) => {
+export const ShopifyProxyRoute: Handler<ShopifyProxyRequest, ShopifyProxyResponse> = async (context) => {
   if(!context.session.cookies.shop || !context.session.cookies.token) {
     throw new Handler.Error("Missing cookies", 400);
   }

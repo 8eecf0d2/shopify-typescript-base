@@ -4,7 +4,7 @@ import * as uuid from "uuid";
 import { Fetch } from "../../../shared/ts/fetch";
 import { Handler } from "./";
 
-export const SetupRoute: Handler<ShopifyAuthSetupRequest, ShopifyAuthSetupResponse> = async (context) => {
+export const ShopifySetupRoute: Handler<ShopifySetupRequest, ShopifySetupResponse> = async (context) => {
   if(!context.request.shop) {
     throw new Handler.Error("Missing `shop` param.", 400);
   }
@@ -22,12 +22,12 @@ export const SetupRoute: Handler<ShopifyAuthSetupRequest, ShopifyAuthSetupRespon
   };
 }
 
-export interface ShopifyAuthSetupRequest extends Handler.Request {
+export interface ShopifySetupRequest extends Handler.Request {
   shop: string;
 }
-export interface ShopifyAuthSetupResponse extends Handler.Response {}
+export interface ShopifySetupResponse extends Handler.Response {}
 
-export const CallbackRoute: Handler<ShopifyAuthCallbackRequest, ShopifyAuthCallbackResponse> = async (context) => {
+export const ShopifyCallbackRoute: Handler<ShopifyCallbackRequest, ShopifyCallbackResponse> = async (context) => {
   if(context.request.state !== context.session.cookies.secret) {
     throw new Handler.Error("Unauthorizaed Origin.", 403);
   }
@@ -79,13 +79,13 @@ export const CallbackRoute: Handler<ShopifyAuthCallbackRequest, ShopifyAuthCallb
   };
 }
 
-export interface ShopifyAuthCallbackRequest extends Handler.Request {
+export interface ShopifyCallbackRequest extends Handler.Request {
   shop: string;
   hmac: string;
   code: string;
   state: string;
 }
-export interface ShopifyAuthCallbackResponse extends Handler.Response {}
+export interface ShopifyCallbackResponse extends Handler.Response {}
 
 const getShopifyAccessToken = async (shop: string, code: string) => {
   const accessTokenPayload = {

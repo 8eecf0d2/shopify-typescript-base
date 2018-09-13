@@ -1,9 +1,9 @@
 import { WebServer } from "../../shared/ts/web-server";
-import { Handler, Handlers } from "./handlers";
+import { Handler, ShopifySetupRoute, ShopifyCallbackRoute, ShopifyProxyRoute, ShopifySessionCheck, DatabaseFindRoute, DatabaseSaveRoute } from "./handlers";
 
 import * as cookie from "cookie";
 
-const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
+const EndpointWrapper = (handlers: Handler[]): WebServer.Route.Handler => {
   return async (request, response) => {
     let context: Handler.Context = {
       request: {
@@ -44,38 +44,28 @@ const ApiHandlerProxy = (handlers: Handler[]): WebServer.Route.Handler => {
   }
 }
 
-const ApiSessionCheck: Handler = (context) => {
-  return Promise.resolve({
-    ...context,
-    session: {
-      ...context.session,
-      authenticated: true,
-    }
-  })
-}
-
 export const endpoints: WebServer.Route.Options[] = [{
   /** Shopify Auth */
   method: "get",
   path: "/shopify/setup",
-  handler: ApiHandlerProxy([Handlers.ShopifyAuth.SetupRoute])
+  handler: EndpointWrapper([ShopifySetupRoute])
 },{
   method: "get",
   path: "/shopify/callback",
-  handler: ApiHandlerProxy([Handlers.ShopifyAuth.CallbackRoute])
+  handler: EndpointWrapper([ShopifyCallbackRoute])
 },{
   /** Shopify Proxy */
   method: "post",
   path: "/api/shopify/proxy",
-  handler: ApiHandlerProxy([Handlers.ShopifyProxy.ProxyRoute])
+  handler: EndpointWrapper([ShopifyProxyRoute])
 },{
   /** Database */
   method: "post",
   path: "/api/database/find",
-  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.Find])
+  handler: EndpointWrapper([ShopifySessionCheck, DatabaseFindRoute])
 },{
   /** Database */
   method: "post",
   path: "/api/database/save",
-  handler: ApiHandlerProxy([ApiSessionCheck, Handlers.Database.Save])
+  handler: EndpointWrapper([ShopifySessionCheck, DatabaseSaveRoute])
 },]
