@@ -6,6 +6,9 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
   const query = request.queryStringParameters;
   const cookies = cookie.parse(request.headers.Cookie);
 
+  console.log("cookies", cookies)
+  console.log("query", query)
+
   if(!cookies.shop || !cookies.token) {
     return {
       statusCode: 403,

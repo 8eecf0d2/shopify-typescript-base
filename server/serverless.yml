@@ -32,14 +32,15 @@ functions:
     handler: src/ts/functions/shopify/proxy.handler
     events:
       - http:
-          method: get
+          method: post
           path: api/shopify/proxy
           integration: lambda
 
 custom:
   serverless-offline:
-    httpsProtocol: ".certificates"
-    host: ${env:API_ADDRESS}
-    port: ${env:API_HTTPS_PORT}
+    # host: ${env:API_ADDRESS}
+    port: ${env:API_HTTP_PORT}
+    # port: ${env:API_HTTPS_PORT}
+    # httpsProtocol: ".certificates"
   dotenv:
     path: ../.env

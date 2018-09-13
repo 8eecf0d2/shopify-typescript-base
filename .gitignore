@@ -3,5 +3,6 @@ node_modules/
 .serverless/
 .webpack/
 .types/
+.env
 
 serverless.env.yml
