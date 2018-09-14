@@ -6,6 +6,12 @@
   version "0.3.1"
   resolved "https://registry.npmjs.org/@types/cookie/-/cookie-0.3.1.tgz#720a756ea8e760a258708b52441bd341f1ef4296"
 
+"@types/jsonwebtoken@^7.2.8":
+  version "7.2.8"
+  resolved "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-7.2.8.tgz#8d199dab4ddb5bba3234f8311b804d2027af2b3a"
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "10.9.4"
   resolved "https://registry.npmjs.org/@types/node/-/node-10.9.4.tgz#0f4cb2dc7c1de6096055357f70179043c33e9897"
