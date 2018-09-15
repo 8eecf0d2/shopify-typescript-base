@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [ "ES2015", "ES2017", "dom" ],
+    "jsx": "react"
+  },
+  "exclude": [ "server/**/*.ts", "node_modules" ]
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [ "ES2015", "ES2017", "dom" ],
+  },
+  "exclude": [ "client/**/*.ts", "node_modules" ]
+}
