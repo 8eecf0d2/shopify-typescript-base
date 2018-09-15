@@ -32,7 +32,7 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
   const access_token = await Shopify.getAccessToken(query.shop, query.code);
 
   const timestamp = new Date();
-  timestamp.setTime(timestamp.getTime() + 60 * 1000);
+  timestamp.setTime(timestamp.getTime() + 365 * 24 * 60 * 60 * 1000);
 
   return {
     statusCode: 302,

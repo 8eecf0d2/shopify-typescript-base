@@ -12,6 +12,9 @@ module.exports = {
     path: path.join(__dirname, ".webpack"),
     filename: "[name].js"
   },
+  node: {
+    __dirname: false,
+  },
   module: {
     rules: [{
       test: /\.ts?$/,

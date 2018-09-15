@@ -1,5 +1,4 @@
 import { Serverless } from "../../serverless";
-import { Fetch } from "../../../../../shared/ts/fetch";
 import { Webtoken } from "../../services";
 import * as cookie from "cookie";
 
@@ -17,47 +16,21 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
 
   if(!webtoken.access_token) {
     return {
-      // TODO: redirect to install page
       statusCode: 403,
       body: "Missing Shopify access token.",
     }
   }
 
-  if(!query.path || !query.method) {
-    return {
-      statusCode: 400,
-      body: "Missing `path` or `method` param.",
-    }
-  }
-
-  const response = await new Fetch({
-    host: webtoken.shop,
-    path: query.path,
-    port: 443,
-    method: query.method,
-    headers: {
-      "X-Shopify-Access-Token": webtoken.access_token
-    }
-  }).exec(query.payload);
-
-  if(response.errors) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify(response.errors),
-    }
-  }
   return {
     statusCode: 200,
-    body: JSON.stringify(response),
+    body: ""
   }
 }
 
 export namespace handler {
   export interface Request extends Serverless.Handler.Request {
     body: {
-      path: string;
-      method: string;
-      payload: any;
+      schema: string;
     };
   }
   export interface Response extends Serverless.Handler.Response {

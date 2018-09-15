@@ -14,6 +14,15 @@ provider:
   runtime: ${env:AWS_RUNTIME}
 
 functions:
+  shopify-app:
+    handler: src/ts/functions/shopify/app.handler
+    events:
+      - http:
+          method: get
+          path: shopify/{path+}
+      - http:
+          method: get
+          path: shopify
   shopify-setup:
     handler: src/ts/functions/shopify/setup.handler
     events:

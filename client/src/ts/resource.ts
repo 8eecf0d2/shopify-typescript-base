@@ -11,7 +11,7 @@ export class Resource<RequestType = any, ResponseType = any> {
       cache: "default",
     }, this.options);
 
-    this.request = new Request(`http://${process.env.API_ADDRESS}:${process.env.API_HTTP_PORT}${this.options.path}`, requestInit);
+    this.request = new Request(`${this.options.path}`, requestInit);
   }
 
   public handler(payload?: RequestType, options?: Resource.Options): Promise<Resource.HttpResponse> {
@@ -34,6 +34,7 @@ export class Resource<RequestType = any, ResponseType = any> {
             response: response,
             data: JSON.parse(json.body)
           };
+          console.log(data)
           Resource.cache[key] = data;
           if(response.ok) {
             return data
