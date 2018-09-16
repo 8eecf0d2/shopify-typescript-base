@@ -37,8 +37,7 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
   return {
     statusCode: 302,
     headers: {
-      // "Location": `https://${query.shop}/admin/apps/${process.env.SHOPIFY_APP_PATH}`,
-      "Location": `https://8eecf0d2-dev.localtunnel.me/shopify`,
+      "Location": `https://${query.shop}/admin/apps/${process.env.SHOPIFY_APP_PATH}`,
       "Set-Cookie": cookie.serialize("webtoken", Webtoken.sign({ ...webtoken, access_token: access_token }), { path: "/", expires: timestamp }),
     }
   }
