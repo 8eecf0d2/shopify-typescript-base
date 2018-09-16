@@ -20,6 +20,7 @@
     "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
     "@types/uuid": "^3.4.4",
+    "serverless-domain-manager": "^2.6.5",
     "serverless-offline": "^3.25.11",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.1.0",

@@ -1,15 +1,16 @@
 service: shopify-server
-app: shopify
+app: shopify-order-printer
 tenant: 8eecf0d2
 
 plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-domain-manager
 
 provider:
   name: aws
-  region: ${env:AWS_REGION}
+  region: ap-southeast-2
   profile: ${env:AWS_PROFILE}
   runtime: ${env:AWS_RUNTIME}
 
@@ -56,3 +57,9 @@ custom:
   webpack:
     webpackConfig: 'src/server/webpack.config.js'
     packager: 'yarn'
+  customDomain:
+    domainName: shopify.aws.8eecf0d2.com
+    certificateName: 8eecf0d2
+    stage: ${self:provider.stage}
+    basePath: ""
+    endpointType: "regional"
