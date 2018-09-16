@@ -5,7 +5,7 @@ import * as uuid from "uuid";
 
 export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
   const query = request.queryStringParameters;
-  const cookies = cookie.parse(String(request.headers.cookie));
+  const cookies = cookie.parse(String(request.headers.cookie || request.headers.Cookie));
   const webtoken = Webtoken.verify(cookies.webtoken);
 
   if(!webtoken) {
