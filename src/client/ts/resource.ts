@@ -31,7 +31,7 @@ export class Resource<RequestType = any, ResponseType = any> {
         try {
           const data = {
             response: response,
-            data: await response.json();
+            data: await response.json(),
           };
           Resource.cache[key] = data;
           if(response.ok) {
