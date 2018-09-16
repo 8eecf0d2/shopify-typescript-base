@@ -29,12 +29,10 @@ export class Resource<RequestType = any, ResponseType = any> {
     return fetch(this.request, requestInit)
       .then(async response => {
         try {
-          const json = await response.json();
           const data = {
             response: response,
-            data: JSON.parse(json.body)
+            data: await response.json();
           };
-          console.log(data)
           Resource.cache[key] = data;
           if(response.ok) {
             return data

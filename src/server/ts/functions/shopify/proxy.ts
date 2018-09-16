@@ -4,7 +4,7 @@ import { Webtoken } from "../../services";
 import * as cookie from "cookie";
 
 export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
-  const query = request.body;
+  const query = JSON.parse(String(request.body));
   const cookies = cookie.parse(String(request.headers.cookie));
   const webtoken = Webtoken.verify(cookies.webtoken);
 

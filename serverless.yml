@@ -43,7 +43,7 @@ functions:
       - http:
           method: post
           path: api/shopify/proxy
-          integration: lambda
+          integration: lambda-proxy
 
 custom:
   serverless-offline:

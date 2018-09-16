@@ -1,7 +1,7 @@
 {
-  "name": "shopify-server",
+  "name": "shopify-application",
   "version": "0.0.0",
-  "author": "9eecf0d2",
+  "author": "8eecf0d2",
   "license": "MIT",
   "scripts": {
     "lint": "tslint --project .",

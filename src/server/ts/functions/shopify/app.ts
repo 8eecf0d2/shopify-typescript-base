@@ -5,18 +5,22 @@ import * as path from "path";
 import * as fs from "fs";
 
 export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
-
   // TODO: Figure out how to deploy / serve static files
   const html = () => ({
     mime: "text/html",
-    file: fs.readFileSync(path.resolve(__dirname, "../../../../../../../client/src/html/index.html"), "utf8")
+    file: fs.readFileSync(path.resolve(__dirname, "../../../../../../../src/client/html/index.html"), "utf8")
   });
   const javascript = () => ({
     mime: "text/javascript",
-    file: fs.readFileSync(path.resolve(__dirname, "../../../../../../../client/.webpack/client.js"), "utf8")
+    file: fs.readFileSync(path.resolve(__dirname, "../../../../../../client.js"), "utf8")
   });
 
-  const payload = request.path.match(/client.js/) ? javascript() : html();
+  const javascriptMap = () => ({
+    mime: "text/javascript",
+    file: fs.readFileSync(path.resolve(__dirname, "../../../../../../client.js.map"), "utf8")
+  });
+
+  const payload = request.path.match(/client.js/) ? request.path.match(/client.js.map/) ? javascriptMap() : javascript() : html();
 
   return {
     statusCode: 200,
