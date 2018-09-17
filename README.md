@@ -42,13 +42,13 @@ yarn run monitor<:server|client>
 2. Set the **App Url** to `https://localhost:2443/shopify`
 3. Ensure the **Areas** are set to `Shopify Admin`
 4. Update the **whitelist** to include `https://localhost:2443/shopify/callback`
-5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your **Shopify App**.
+5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your **Shopify App**
 
 #### Shopify Development Store
 
 1. Create a new **Development Store** from the partner dashboard
-2. Copy the store's **URL** from the Development Store dashboard (eg, `test-shop.myshopify.com`).
-3. Visit `https://localhost:2443/shopify/install?shop=test-shop.myshopify.com` and follow OAuth flow.
+2. Copy the store's **URL** from the Development Store dashboard (eg, `test-shop.myshopify.com`)
+3. Visit `https://localhost:2443/shopify/install?shop=test-shop.myshopify.com` and follow OAuth flow
 
 #### Caveats
 
