@@ -51,8 +51,8 @@ custom:
   dotenv:
     path: .env
   webpack:
-    webpackConfig: 'src/server/webpack.config.js'
-    packager: 'yarn'
+    webpackConfig: src/server/webpack.config.js
+    packager: yarn
   customDomain:
     domainName: shopify.aws.8eecf0d2.com
     certificateName: 8eecf0d2
