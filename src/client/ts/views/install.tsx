@@ -33,7 +33,7 @@ export class InstallView extends React.Component<InstallView.Props, InstallView.
 
   private install () {
     if(this.state.url.length > 1) {
-      window.location.href = `/shopify/setup?shop=${this.state.url + ".myshopify.com"}`;
+      window.location.href = `/api/shopify/setup?shop=${this.state.url + ".myshopify.com"}`;
     }
   }
 }

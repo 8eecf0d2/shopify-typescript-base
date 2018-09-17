@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "tslint --project .",
-    "certs": "mkdir -p .certificates && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout .certificates/key.pem -out .certificates/cert.pem -subj '/CN=localhost' &> /dev/null",
+    "certs": "mkdir -p .certs && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout .certs/key.pem -out .certs/cert.pem -subj '/CN=localhost' &> /dev/null",
     "build": "webpack --config ./webpack.config.js",
     "build:client": "webpack --config ./src/client/webpack.config.js",
     "build:server": "webpack --config ./src/server/webpack.config.js",

@@ -15,7 +15,7 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
 
   const secret = uuid.v4();
   const webtoken = Webtoken.sign({ secret: secret, shop: query.shop })
-  const callback = `https://${process.env.API_ADDRESS}/api/shopify/callback`;
+  const callback = `${process.env.API_PROTOCOL}://${process.env.API_ADDRESS}:${process.env.API_PORT}/api/shopify/callback`;
   const redirect = `https://${query.shop}/admin/oauth/authorize?client_id=${process.env.SHOPIFY_API_KEY}&scope=${process.env.SHOPIFY_API_SCOPE}&state=${secret}&redirect_uri=${callback}`;
 
   const timestamp = new Date();

@@ -1,1 +1,1 @@
-export { handler as findHandler } from "./find";
+export { handler as databaseFindHandler } from "./find";
