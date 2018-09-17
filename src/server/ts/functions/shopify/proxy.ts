@@ -3,28 +3,13 @@ import { Fetch } from "../../../../shared/ts/fetch";
 import { Webtoken } from "../../services";
 import * as cookie from "cookie";
 
-export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
+export const shopifyProxyHandler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
   const query = JSON.parse(String(request.body));
-  const cookies = cookie.parse(String(request.headers.cookie || request.headers.Cookie));
+  const cookies = cookie.parse(String(request.headers.cookie));
   const webtoken = Webtoken.verify(cookies.webtoken);
 
-  if(!webtoken) {
-    return {
-      statusCode: 403,
-      body: "Invalid webtoken.",
-    }
-  }
-
-  if(!webtoken.access_token) {
-    return {
-      // TODO: redirect to install page
-      statusCode: 403,
-      body: "Missing Shopify access token.",
-    }
-  }
-
   if(!query.path || !query.method) {
-    return {
+    throw {
       statusCode: 400,
       body: "Missing `path` or `method` param.",
     }
@@ -41,16 +26,19 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
   }).exec(query.payload);
 
   if(response.errors) {
-    return {
+    throw {
       statusCode: 500,
-      body: JSON.stringify(response.errors),
+      body: response.errors,
     }
   }
+
   return {
     statusCode: 200,
-    body: JSON.stringify(response),
+    body: response,
   }
 }
+
+export const handler = Serverless.handle(Webtoken.middleware, shopifyProxyHandler);
 
 export namespace handler {
   export interface Request extends Serverless.Handler.Request {

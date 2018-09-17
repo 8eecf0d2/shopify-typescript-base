@@ -3,11 +3,11 @@ import { Webtoken } from "../../services";
 import * as cookie from "cookie";
 import * as uuid from "uuid";
 
-export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
+export const shopifySetupHandler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
   const query = request.queryStringParameters;
 
   if(!query.shop) {
-    return {
+    throw {
       statusCode: 200,
       body: "Missing `shop` param.",
     }
@@ -29,6 +29,8 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
     },
   }
 }
+
+export const handler = Serverless.handle(shopifySetupHandler);
 
 export namespace handler {
   export interface Request extends Serverless.Handler.Request {

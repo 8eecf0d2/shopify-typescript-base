@@ -3,27 +3,27 @@ import { Shopify, Webtoken } from "../../services";
 import * as cookie from "cookie";
 import * as uuid from "uuid";
 
-export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
+export const shopifyCallbackHandler: Serverless.Handler<handler.Request, handler.Response> = async (request, context) => {
   const query = request.queryStringParameters;
-  const cookies = cookie.parse(String(request.headers.cookie || request.headers.Cookie));
+  const cookies = cookie.parse(String(request.headers.cookie));
   const webtoken = Webtoken.verify(cookies.webtoken);
 
   if(!webtoken) {
-    return {
+    throw {
       statusCode: 403,
       body: "Invalid webtoken.",
     }
   }
 
   if(query.state !== webtoken.secret) {
-    return {
+    throw {
       statusCode: 403,
       body: "Unauthorized origin.",
     }
   }
 
   if(!query.shop || !query.hmac || !query.code) {
-    return {
+    throw {
       statusCode: 400,
       body: "Missing `shop`, `hmac` or `code` param.",
     }
@@ -42,6 +42,8 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
     }
   }
 }
+
+export const handler = Serverless.handle(Webtoken.middleware, shopifyCallbackHandler);
 
 export namespace handler {
   export interface Request extends Serverless.Handler.Request {
