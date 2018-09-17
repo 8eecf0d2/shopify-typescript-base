@@ -1,4 +1,4 @@
-<h1 align="center">🚧 shopify-typescript-base 🚧</h1>
+<h1 align="center">shopify-typescript-base</h1>
 
 <p align="center"><img src="https://img.shields.io/badge/badge-yup-brightgreen.svg" title="badge good"></p>
 <p align="center">Example Shopify application, powered by <a href="https://serverless.com/">Serverless</a>, written in <a href="https://github.com/Microsoft/TypeScript">Typescript</a></p>
