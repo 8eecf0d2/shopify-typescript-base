@@ -13,8 +13,8 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
   };
 
   public state: OrdersListView.State = {
-    item: OrderSchema.empty(),
-    items: [],
+    order: OrderSchema.empty(),
+    orders: [],
     selectedItems: [],
     templates: [],
     orderPreview: "",
@@ -34,14 +34,10 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: "/admin/orders.json?status=any" }))
-      .then((response) => {
-        console.log(response)
-        this.setState({ items: OrderSchema.parse(response.orders) })
-      })
-      // .then(() => resource.database.find.query({ schema: "templates" }))
-      // .then((response) => this.setState({ templates: response.data.items }))
+      .then((response) => this.setState({ orders: OrderSchema.parse(response.orders) }))
+      .then(() => resource.database.find.query({ schema: "templates" }))
+      .then((response) => this.setState({ templates: response.templates }))
       .then(() => this.setState({ loadingView: false }))
-      .catch((error) => console.log("error", error))
   }
 
   public render (): JSX.Element {
@@ -69,9 +65,9 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
       <Card>
         <ResourceList
           resourceName={resourceName}
-          items={this.filter(this.state.items)}
+          items={this.filter(this.state.orders)}
           filterControl={this.resourceFilterControl()}
-          renderItem={(item) => this.resourceListItem(item)}
+          renderItem={(order) => this.resourceListItem(order)}
           selectedItems={this.state.selectedItems}
           onSelectionChange={(selectedItems) => this.setState({ selectedItems: selectedItems})}
           promotedBulkActions={[{
@@ -79,16 +75,16 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
             url: "/shopify/orders/prepare"
           }]}
         />
-        {this.state.items.length > 50 ? this.pagination() : null}
+        {this.state.orders.length > 50 ? this.pagination() : null}
       </Card>
     )
   }
 
-  private filter (items: OrderSchema.Object[]): OrderSchema.Object[] {
-    return items.filter(item => {
+  private filter (orders: OrderSchema.Object[]): OrderSchema.Object[] {
+    return orders.filter(order => {
       let matches = true;
       if(this.state.searchValue) {
-        matches = Boolean(item.name.toLowerCase().match(this.state.searchValue.toLowerCase()))
+        matches = Boolean(order.name.toLowerCase().match(this.state.searchValue.toLowerCase()))
       }
       return matches;
     });
@@ -125,7 +121,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
         shortcutActions={[{
           content: "View Preview",
           onAction: async () => this.setState({
-            item: order,
+            order: order,
             orderPreview: await Printer.print(this.state.templates[0], order),
             modalOpen: true
           })
@@ -222,8 +218,8 @@ export namespace OrdersListView {
     filters: Filter[];
   }
   export interface State {
-    item: OrderSchema.Object;
-    items: OrderSchema.Object[];
+    order: OrderSchema.Object;
+    orders: OrderSchema.Object[];
     selectedItems: ResourceListSelectedItems;
     templates: TemplateSchema.Object[];
     orderPreview: string;

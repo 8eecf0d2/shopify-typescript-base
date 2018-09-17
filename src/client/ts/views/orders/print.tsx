@@ -36,7 +36,6 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
       .then(() => this.selectDefaultTemplates())
       .then(() => this.createPreviews())
       .then(() => this.setState({ loadingView: false }))
-      .catch((error) => console.log("error", error))
   }
 
   private selectDefaultTemplates (): void {
