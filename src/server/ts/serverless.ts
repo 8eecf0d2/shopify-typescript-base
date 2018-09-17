@@ -1,4 +1,4 @@
-/** TODO: Break out into helper package */
+/** TODO: Breakout class into helper package */
 export class Serverless {
   public static handle (...handlers: Serverless.Handler[]): Serverless.Handler {
     return async (request, context, callback) => {
