@@ -58,8 +58,8 @@ You cannot view your app within the Shopify dashboard using `localhost` as the s
 
 | Service           | Endpoint      |
 | ----------------- | ------------- |
-| Shopify App       | [`https://localhost:1443/shopify`](http://localhost:1443/shopify) |
-| Shopify API Proxy | [`https://localhost:2443/api/shopify/proxy`](http://localhost:2443/api/shopify/proxy) |
+| Shopify App       | [`https://localhost:1443/shopify`](https://localhost:1443/shopify) |
+| Shopify API Proxy | [`https://localhost:2443/api/shopify/proxy`](https://localhost:2443/api/shopify/proxy) |
 
 ### Development
 
