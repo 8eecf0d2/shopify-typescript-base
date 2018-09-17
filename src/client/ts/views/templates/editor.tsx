@@ -19,7 +19,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
   };
 
   public state: TemplatesEditorView.State = {
-    item: TemplateSchema.empty(),
+    template: TemplateSchema.empty(),
     variables: {},
     loadingView: false,
     loadingSave: false,
@@ -30,7 +30,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.database.find.query({ schema: "templates", query: { id: this.props.match.params.id } }))
-      .then((response) => this.setState({ item: response.data.items[0] }))
+      .then((response) => this.setState({ template: response.templates[0] }))
       .then(() => Printer.variables())
       .then((variables) => this.setState({ variables: this.flattenVariables(variables) }))
       .then(() => this.setState({ loadingView: false }))
@@ -50,7 +50,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
           loading: this.state.loadingSave,
           onAction: () => Promise.resolve()
             .then(() => this.setState({ loadingSave: true }))
-            .then(() => resource.database.save.query({ schema: "templates", data: this.state.item }))
+            .then(() => resource.database.save.query({ schema: "templates", data: this.state.template }))
             .then(() => this.setState({ loadingSave: false }))
         }}
         secondaryActions={[{
@@ -75,16 +75,16 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
           <Card sectioned>
             <TextField
               label="Title"
-              value={this.state.item.title}
-              onChange={(title) => this.setState((prevState) => ({ item: { ...prevState.item, title: title }}))}
+              value={this.state.template.title}
+              onChange={(title) => this.setState((prevState) => ({ template: { ...prevState.template, title: title }}))}
             />
             <div style={{ marginTop: "20px" }} className="editor">
               <div style={{ marginBottom: "4px" }}>
                 <TextStyle>Template</TextStyle>
               </div>
               <Editor
-                value={this.state.item.content}
-                onValueChange={(content: string) => this.setState((prevState) => ({ item: { ...prevState.item, content: content }}))}
+                value={this.state.template.content}
+                onValueChange={(content: string) => this.setState((prevState) => ({ template: { ...prevState.template, content: content }}))}
                 highlight={(code: string) => highlight(code, languages.liquid)}
                 padding={10}
                 style={{ fontFamily: "monospace", fontSize: "14px" }}
@@ -148,7 +148,7 @@ export namespace TemplatesEditorView {
     title: string;
   }
   export interface State {
-    item: TemplateSchema.Object;
+    template: TemplateSchema.Object;
     variables: any;
     loadingView: boolean;
     loadingSave: boolean;

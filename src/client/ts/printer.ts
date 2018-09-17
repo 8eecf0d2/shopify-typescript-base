@@ -13,14 +13,14 @@ export class Printer {
   }
 
   static async variables (order?: string): Promise<Printer.Variables> {
-    const requests = {
-      shop: await resource.shopify.query({ method: "GET", path: `/admin/shop.json` }),
-      order: !order ? { data: { order: OrderSchema.empty() } } : await resource.shopify.query({ method: "GET", path: `/admin/orders/${order}.json` }),
+    const variableQueries = {
+      shopQuery: await resource.shopify.query({ method: "GET", path: `/admin/shop.json` }),
+      orderQuery: !order ? { order: OrderSchema.empty() } : await resource.shopify.query({ method: "GET", path: `/admin/orders/${order}.json` }),
     }
 
     return {
-      shop: requests.shop.data.shop,
-      order: OrderSchema.parse(requests.order.data.order)[0],
+      shop: variableQueries.shopQuery.shop,
+      order: OrderSchema.parse(variableQueries.orderQuery.order)[0],
     }
   }
 }

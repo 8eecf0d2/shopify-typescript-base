@@ -1,6 +1,6 @@
 export class Resource<RequestType = {}, ResponseType = any> {
   private static cache: { [key: string]: any } = {};
-  private static baseURL = `${process.env.API_PROTOCOL}://${process.env.API_ADDRESS}:${process.env.API_PORT}`;
+  public static baseURL = `${process.env.API_PROTOCOL}://${process.env.API_ADDRESS}:${process.env.API_PORT}`;
 
   constructor (
     public options: Resource.Options<RequestType>,
@@ -24,13 +24,18 @@ export class Resource<RequestType = {}, ResponseType = any> {
       body: JSON.stringify(payload)
     })
 
-    const data = await fetchQuery.json();
-
-    if (fetchQuery.status < 200 || fetchQuery.status > 299) {
-      throw data;
+    let response: any;
+    try {
+      response = await fetchQuery.json();
+    } catch (error) {
+      response = {}
     }
 
-    return data;
+    if (fetchQuery.status < 200 || fetchQuery.status > 299) {
+      throw response;
+    }
+
+    return response;
   }
 }
 

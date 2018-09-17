@@ -1,10 +1,10 @@
 import { Serverless } from "../../serverless";
-import { Webtoken } from "../../services";
+import { Webtoken, Database } from "../../services";
 import * as cookie from "cookie";
 
 export const handler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
   const query = request.body;
-  const cookies = cookie.parse(String(request.headers.cookie));
+  const cookies = cookie.parse(String(request.headers.cookie || request.headers.Cookie));
   const webtoken = Webtoken.verify(cookies.webtoken);
 
   if(!webtoken) {
@@ -23,7 +23,7 @@ export const handler: Serverless.Handler<handler.Request, handler.Response> = as
 
   return {
     statusCode: 200,
-    body: ""
+    body: JSON.stringify(await Database.Find("templates", "", {})),
   }
 }
 
@@ -34,6 +34,6 @@ export namespace handler {
     };
   }
   export interface Response extends Serverless.Handler.Response {
-    body: string;
+    body: any;
   }
 }

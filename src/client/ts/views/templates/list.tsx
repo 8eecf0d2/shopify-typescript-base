@@ -11,8 +11,8 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
   };
 
   public state: TemplatesListView.State = {
-    item: TemplateSchema.empty(),
-    items: [TemplateSchema.empty()],
+    template: TemplateSchema.empty(),
+    templates: [TemplateSchema.empty()],
     selectedItems: [],
     loadingView: false,
   };
@@ -22,7 +22,7 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.database.find.query({ schema: "templates" }))
-      .then((response) => this.setState({ items: response.data.items, loadingView: false }))
+      .then((response) => this.setState({ templates: response.templates, loadingView: false }))
       .catch((error) => console.log("error", error))
   }
 
@@ -54,10 +54,10 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
       <Card>
         <ResourceList
           resourceName={resourceName}
-          items={this.state.items}
+          items={this.state.templates}
           selectedItems={this.state.selectedItems}
           onSelectionChange={(selectedItems) => this.setState({ selectedItems: selectedItems })}
-          renderItem={(item) => this.resourceListItem(item)}
+          renderItem={(template) => this.resourceListItem(template)}
           promotedBulkActions={[{
             content: "Set as Default",
             onAction: () => {}
@@ -117,8 +117,8 @@ export namespace TemplatesListView {
     title: string;
   }
   export interface State {
-    item: TemplateSchema.Object;
-    items: TemplateSchema.Object[];
+    template: TemplateSchema.Object;
+    templates: TemplateSchema.Object[];
     selectedItems: ResourceListSelectedItems;
     loadingView: boolean;
   }

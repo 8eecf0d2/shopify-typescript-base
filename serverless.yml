@@ -36,6 +36,13 @@ functions:
           method: post
           path: api/shopify/proxy
           integration: lambda-proxy
+  database-find:
+    handler: src/server/ts/functions/database/find.handler
+    events:
+      - http:
+          method: post
+          path: api/database/find
+          integration: lambda-proxy
 
 custom:
   serverless-offline:
