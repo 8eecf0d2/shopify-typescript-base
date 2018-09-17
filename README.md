@@ -64,8 +64,6 @@ You cannot view your app within the Shopify dashboard using `localhost` as the s
 ### Development
 
 * Try and develop on `localhost` as much as possible, loading Shopify on each change is incredibly exhausting.
-* Running `yarn run watch:dev`, `yarn run monitor:server:dev` and `yarn run monitor:database:dev` should provide a couple hundred ms feedback loop, rebuilds and restarts are code-flow specific so changing the `client` won't rebuild / restart the server or database. It's actually pretty neat 🍻
+* Running `yarn run mointor:client` and `yarn run monitor:server` should provide a couple hundred ms feedback loop, rebuilds and restarts are code-flow specific so changing the `client` won't rebuild / restart the `server`. It's actually pretty neat 🍻
 * Again, don't cut your legs off by hard requiring Shopify Embedded features, the reload times are horrific.
 * Keep dependencies to an absolute minimum, with my very best _webpack-fu_ `@shopify/polaris` is `480kb`.. and thats before you add `react` and friends 😨
-* Have fun, although it's big, `@shopify/polaris` is really pretty and easy to work with.
-* 100% **don't** use the `database` portion in production, my intentions are pure but I can't imagine it's a good long term strategy.
