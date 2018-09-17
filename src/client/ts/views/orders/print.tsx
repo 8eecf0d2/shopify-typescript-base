@@ -121,7 +121,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
             <Heading>Templates</Heading>
             <ChoiceList
               allowMultiple
-              title={'Pick templates for printing'}
+              title={"Pick templates for printing"}
               choices={this.state.templates.map(template => ({label: template.title, value: template.id }))}
               selected={this.state.templatesSelected}
               onChange={(templatesSelected) => this.setState({ templatesSelected: templatesSelected }) }

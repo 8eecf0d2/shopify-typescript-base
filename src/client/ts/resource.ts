@@ -11,11 +11,11 @@ export class Resource<RequestType = {}, ResponseType = any> {
     const key = JSON.stringify({ url: url, options: this.options });
 
     const fetchQuery = await fetch(url.href, {
-      method: 'POST',
+      method: "POST",
       credentials: "include",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        "Accept": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });

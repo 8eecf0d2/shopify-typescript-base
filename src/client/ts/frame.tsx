@@ -4,7 +4,7 @@ import * as util from "./util";
 
 export class Frame extends React.Component<Frame.Props, Frame.State> {
   public iframe: HTMLIFrameElement;
-  public div = document.createElement('div');
+  public div = document.createElement("div");
 
   public state = {
     height: "0%",

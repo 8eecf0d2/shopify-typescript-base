@@ -1,10 +1,10 @@
 import * as React from "react";
 //@ts-ignore
-import Editor from 'react-simple-code-editor';
+import Editor from "react-simple-code-editor";
 //@ts-ignore
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-liquid';
-import 'prismjs/components/prism-clike';
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-liquid";
+import "prismjs/components/prism-clike";
 
 import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, Subheading, TextContainer, TextField, TextStyle } from "@shopify/polaris";
 
@@ -46,7 +46,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
           url: "/shopify/templates"
         }]}
         primaryAction={{
-          content: 'Save',
+          content: "Save",
           loading: this.state.loadingSave,
           onAction: () => Promise.resolve()
             .then(() => this.setState({ loadingSave: true }))
@@ -126,13 +126,13 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
       if (!ob.hasOwnProperty(i)) {
         continue;
       }
-      if ((typeof ob[i]) === 'object') {
+      if ((typeof ob[i]) === "object") {
         flatObject = this.flattenVariables(ob[i]);
         for (const x in flatObject) {
           if (!flatObject.hasOwnProperty(x)) {
             continue;
           }
-          data[i + (!!isNaN(parseInt(x)) ? '.' + x : '')] = flatObject[x];
+          data[i + (!!isNaN(parseInt(x)) ? "." + x : '')] = flatObject[x];
         }
       } else {
         data[i] = ob[i];
