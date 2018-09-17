@@ -12,8 +12,8 @@
     "watch": "webpack --watch --config ./webpack.config.js",
     "watch:client": "webpack --watch --config ./src/client/webpack.config.js",
     "watch:server": "webpack --watch --config ./src/server/webpack.config.js",
-    "start:client": "webpack-serve --config ./src/client/webpack.config.js",
-    "start:server": "serverless offline -v"
+    "monitor:client": "webpack-serve --config ./src/client/webpack.config.js",
+    "monitor:server": "serverless offline -v"
   },
   "devDependencies": {
     "@types/cookie": "^0.3.1",
