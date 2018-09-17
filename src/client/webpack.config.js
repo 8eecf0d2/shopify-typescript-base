@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const spaPlugin = require("webpack-serve-spa-plugin");
 const dotenvPlugin = require("webpack-dotenv-plugin");
 
@@ -29,8 +30,12 @@ module.exports = {
 
 if(process.env.WEBPACK_SERVE) {
   module.exports.serve = {
-    port: 3000,
+    port: 1443,
     content: [path.join(__dirname, "./html")],
+    https: {
+      key: fs.readFileSync(path.join(__dirname, "../../.certs/key.pem")),
+      cert: fs.readFileSync(path.join(__dirname, "../../.certs/cert.pem")),
+    },
     add: (app) => spaPlugin(app),
   }
 }
