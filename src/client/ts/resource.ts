@@ -10,6 +10,7 @@ export class Resource<RequestType = {}, ResponseType = any> {
     const url = new URL(`${Resource.baseURL}${this.options.path}`);
 
     const key = JSON.stringify({ url: url, options: this.options });
+
     if(Resource.cache[key]) {
       return Resource.cache[key];
     }
@@ -24,18 +25,17 @@ export class Resource<RequestType = {}, ResponseType = any> {
       body: JSON.stringify(payload)
     })
 
-    let response: any;
     try {
-      response = await fetchQuery.json();
+      Resource.cache[key] = await fetchQuery.json();
     } catch (error) {
-      response = {}
+      Resource.cache[key] = {}
     }
 
     if (fetchQuery.status < 200 || fetchQuery.status > 299) {
-      throw response;
+      throw Resource.cache[key];
     }
 
-    return response;
+    return Resource.cache[key];
   }
 }
 
