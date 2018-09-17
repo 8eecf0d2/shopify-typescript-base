@@ -11,7 +11,9 @@
     "build:server": "webpack --config ./src/server/webpack.config.js",
     "watch": "webpack --watch --config ./webpack.config.js",
     "watch:client": "webpack --watch --config ./src/client/webpack.config.js",
-    "watch:server": "webpack --watch --config ./src/server/webpack.config.js"
+    "watch:server": "webpack --watch --config ./src/server/webpack.config.js",
+    "start:client": "webpack-serve --config ./src/client/webpack.config.js",
+    "start:server": "serverless offline -v"
   },
   "devDependencies": {
     "@types/cookie": "^0.3.1",
@@ -21,13 +23,16 @@
     "@types/react-router-dom": "^4.3.0",
     "@types/uuid": "^3.4.4",
     "serverless-domain-manager": "^2.6.5",
+    "serverless-dotenv-plugin": "^1.2.0",
     "serverless-offline": "^3.25.11",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.1.0",
     "typescript": "^3.0.3",
     "webpack": "^4.18.0",
     "webpack-cli": "^3.1.0",
-    "webpack-dotenv-plugin": "^2.1.0"
+    "webpack-dotenv-plugin": "^2.1.0",
+    "webpack-serve": "^2.0.2",
+    "webpack-serve-spa-plugin": "^1.0.0"
   },
   "dependencies": {
     "@shopify/polaris": "^2.9.0",
@@ -40,7 +45,6 @@
     "react-dom": "^16.5.0",
     "react-router-dom": "^4.3.1",
     "react-simple-code-editor": "^0.6.1",
-    "serverless-dotenv-plugin": "^1.2.0",
     "uuid": "^3.3.2"
   }
 }
