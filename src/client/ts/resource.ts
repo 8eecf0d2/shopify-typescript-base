@@ -1,5 +1,4 @@
 export class Resource<RequestType = {}, ResponseType = any> {
-  private static cache: { [key: string]: any } = {};
   public static baseURL = `${process.env.API_PROTOCOL}://${process.env.API_ADDRESS}:${process.env.API_PORT}`;
 
   constructor (
@@ -11,10 +10,6 @@ export class Resource<RequestType = {}, ResponseType = any> {
 
     const key = JSON.stringify({ url: url, options: this.options });
 
-    if(Resource.cache[key]) {
-      return Resource.cache[key];
-    }
-
     const fetchQuery = await fetch(url.href, {
       method: 'POST',
       credentials: "include",
@@ -23,19 +18,20 @@ export class Resource<RequestType = {}, ResponseType = any> {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    })
+    });
 
+    let response: ResponseType;
     try {
-      Resource.cache[key] = await fetchQuery.json();
+      response = await fetchQuery.json();
     } catch (error) {
-      Resource.cache[key] = {}
+      response = null;
     }
 
     if (fetchQuery.status < 200 || fetchQuery.status > 299) {
-      throw Resource.cache[key];
+      throw response;
     }
 
-    return Resource.cache[key];
+    return response;
   }
 }
 
