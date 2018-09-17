@@ -14,8 +14,8 @@ export class Printer {
 
   static async variables (order?: string): Promise<Printer.Variables> {
     const requests = {
-      shop: await resource.shopify.handler({ method: "GET", path: `/admin/shop.json` }),
-      order: !order ? { data: { order: OrderSchema.empty() } } : await resource.shopify.handler({ method: "GET", path: `/admin/orders/${order}.json` }),
+      shop: await resource.shopify.query({ method: "GET", path: `/admin/shop.json` }),
+      order: !order ? { data: { order: OrderSchema.empty() } } : await resource.shopify.query({ method: "GET", path: `/admin/orders/${order}.json` }),
     }
 
     return {

@@ -29,7 +29,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.database.find.handler({ schema: "templates", query: { id: this.props.match.params.id } }))
+      .then(() => resource.database.find.query({ schema: "templates", query: { id: this.props.match.params.id } }))
       .then((response) => this.setState({ item: response.data.items[0] }))
       .then(() => Printer.variables())
       .then((variables) => this.setState({ variables: this.flattenVariables(variables) }))
@@ -50,7 +50,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
           loading: this.state.loadingSave,
           onAction: () => Promise.resolve()
             .then(() => this.setState({ loadingSave: true }))
-            .then(() => resource.database.save.handler({ schema: "templates", data: this.state.item }))
+            .then(() => resource.database.save.query({ schema: "templates", data: this.state.item }))
             .then(() => this.setState({ loadingSave: false }))
         }}
         secondaryActions={[{

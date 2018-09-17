@@ -1,66 +1,43 @@
-export class Resource<RequestType = any, ResponseType = any> {
-  static cache: { [key: string]: any } = {};
-  private request: Request;
+export class Resource<RequestType = {}, ResponseType = any> {
+  private static cache: { [key: string]: any } = {};
+  private static baseURL = `${process.env.API_PROTOCOL}://${process.env.API_ADDRESS}:${process.env.API_PORT}`;
 
-  constructor(
-    public options: Resource.Options,
-  ) {
-    const requestInit = Object.assign({
-      method: "POST",
-      mode: "cors",
-      cache: "default",
-    }, this.options);
+  constructor (
+    public options: Resource.Options<RequestType>,
+  ) {}
 
-    this.request = new Request(`${this.options.path}`, requestInit);
-  }
+  public async query (payload: RequestType): Promise<ResponseType> {
+    const url = new URL(`${Resource.baseURL}${this.options.path}`);
 
-  public handler(payload?: RequestType, options?: Resource.Options): Promise<Resource.HttpResponse> {
-    const requestInit = Object.assign({}, { body: JSON.stringify(payload) }, options);
-    if(payload) {
-      requestInit.headers = {
-        ...requestInit.headers,
-        "Content-Type": "application/json"
-      }
-    }
-    const key = JSON.stringify({ request: this.request, options: requestInit });
+    const key = JSON.stringify({ url: url, options: this.options });
     if(Resource.cache[key]) {
       return Resource.cache[key];
     }
-    return fetch(this.request, requestInit)
-      .then(async response => {
-        try {
-          const data = {
-            response: response,
-            data: await response.json(),
-          };
-          Resource.cache[key] = data;
-          if(response.ok) {
-            return data
-          } else {
-            throw data
-          }
-        } catch(error) {
-          console.error(error)
-          if(response.ok) {
-            return { response: response, error: error, data: undefined }
-          } else {
-            throw { response: response, error: error, data: undefined }
-          }
-        }
-      });
+
+    const fetchQuery = await fetch(url.href, {
+      method: 'POST',
+      credentials: "include",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+
+    const data = await fetchQuery.json();
+
+    if (fetchQuery.status < 200 || fetchQuery.status > 299) {
+      throw data;
+    }
+
+    return data;
   }
 }
 
 export namespace Resource {
-  export type Method = "GET"|"POST";
   export type Path = string;
-  export interface Options extends RequestInit {
-    method?: Resource.Method,
-    path: Resource.Path,
-  }
-  export interface HttpResponse {
-    response: Response;
-    data: any;
+  export interface Options<RequestType = any> extends RequestInit {
+    path: Resource.Path;
   }
 }
 
