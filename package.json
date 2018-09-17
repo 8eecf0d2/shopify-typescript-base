@@ -2,7 +2,7 @@
   "name": "shopify-application",
   "version": "0.0.0",
   "author": "8eecf0d2",
-  "license": "MIT",
+  "license": "ISC",
   "scripts": {
     "lint": "tslint --project .",
     "certs": "mkdir -p .certs && openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout .certs/key.pem -out .certs/cert.pem -subj '/CN=localhost' &> /dev/null",
