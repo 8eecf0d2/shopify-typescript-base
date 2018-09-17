@@ -39,16 +39,16 @@ yarn run monitor<:server|client>
 #### Shopify App
 
 1. Create a new **App** from the partner dashboard
-2. Set the **App Url** to `https://localhost:2443/shopify`
+2. Set the **App Url** to `https://localhost:1443/shopify`
 3. Ensure the **Areas** are set to `Shopify Admin`
-4. Update the **whitelist** to include `https://localhost:2443/shopify/callback`
+4. Update the **whitelist** to include `https://localhost:2443/api/shopify/callback`
 5. Copy `.env.example` to `.env` and set the `SHOPIFY_API_KEY` and `SHOPIFY_API_SECRET` to those of your **Shopify App**
 
 #### Shopify Development Store
 
 1. Create a new **Development Store** from the partner dashboard
 2. Copy the store's **URL** from the Development Store dashboard (eg, `test-shop.myshopify.com`)
-3. Visit `https://localhost:2443/shopify/install?shop=test-shop.myshopify.com` and follow OAuth flow
+3. Visit `https://localhost:1443/shopify/install?shop=test-shop.myshopify.com` and follow OAuth flow
 
 #### Caveats
 
@@ -58,8 +58,8 @@ You cannot view your app within the Shopify dashboard using `localhost` as the s
 
 | Service           | Endpoint      |
 | ----------------- | ------------- |
-| Shopify App       | [`https://localhost:1443/shopify`](http://localhost:2443/shopify) |
-| Shopify Proxy     | [`https://localhost:2443/api/shopify`](http://localhost:2443/api/shopify) |
+| Shopify App       | [`https://localhost:1443/shopify`](http://localhost:1443/shopify) |
+| Shopify API Proxy | [`https://localhost:2443/api/shopify/proxy`](http://localhost:2443/api/shopify/proxy) |
 
 ### Development
 

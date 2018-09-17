@@ -46,7 +46,6 @@ functions:
 
 custom:
   serverless-offline:
-    # port: ${env:API_PORT}
     port: ${env:API_PORT}
     httpsProtocol: ".certs"
   dotenv:
