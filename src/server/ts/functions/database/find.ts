@@ -1,13 +1,18 @@
 import { Serverless } from "../../serverless";
-import { Webtoken, Database } from "../../services";
+import { Webtoken } from "../../services";
+import { Database } from "../../../../shared/ts/database";
 import * as cookie from "cookie";
 
 export const databaseFindHandler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
   const query = request.body;
 
+  const database = new Database();
+
   return {
     statusCode: 200,
-    body: await Database.Find("templates", "", {}),
+    body: {
+      templates: await database.template.scan().exec(),
+    }
   }
 }
 

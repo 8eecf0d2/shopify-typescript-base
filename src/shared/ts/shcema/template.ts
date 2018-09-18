@@ -1,3 +1,5 @@
+import * as dynamoose from "dynamoose";
+
 export class TemplateSchema {
   static empty (): TemplateSchema.Object {
     return {
@@ -13,7 +15,6 @@ export class TemplateSchema {
 }
 
 export namespace TemplateSchema {
-  export type Type = "info"|"success"|"warning";
   export interface Object {
     id: string;
     title: string;
