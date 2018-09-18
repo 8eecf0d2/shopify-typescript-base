@@ -10,9 +10,12 @@ plugins:
 
 provider:
   name: aws
-  region: ap-southeast-2
+  stage: ${opt:stage, "dev"}
+  region: ${env:AWS_REGION}
   profile: ${env:AWS_PROFILE}
   runtime: ${env:AWS_RUNTIME}
+  environment:
+    STAGE: ${self:provider.stage}
 
 functions:
   shopify-setup:
@@ -57,5 +60,5 @@ custom:
     domainName: shopify.aws.8eecf0d2.com
     certificateName: 8eecf0d2
     stage: ${self:provider.stage}
-    basePath: ""
-    endpointType: "regional"
+    basePath:
+    endpointType: regional
