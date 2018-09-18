@@ -16,4 +16,5 @@ export class Database {
   }
 
   public template = models.TemplateModel;
+  public shop = models.ShopModel;
 }

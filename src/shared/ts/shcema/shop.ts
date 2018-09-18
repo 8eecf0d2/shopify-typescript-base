@@ -11,7 +11,6 @@ export class ShopSchema {
 }
 
 export namespace ShopSchema {
-  export type Type = "info"|"success"|"warning";
   export interface Object {
     id: string;
     domain: string;
