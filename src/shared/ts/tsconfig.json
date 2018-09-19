@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es6",
+    "moduleResolution": "node",
     "lib": [ "ES2015", "ES2017", "dom" ],
   },
   "exclude": [ "node_modules" ]

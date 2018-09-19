@@ -1,4 +1,4 @@
-import { ShopSchema } from "../shcema";
+
 import * as dynamoose from "dynamoose";
 
 export class ShopModel {
@@ -20,13 +20,24 @@ export class ShopModel {
 
   public static model = dynamoose.model("shop", ShopModel.schema);
 
-  public static async query (search: any, attributes?: any): Promise<ShopSchema[]> {
-    const result = await ShopModel.model.scan(search).attributes(attributes).all().exec();
+  public static empty (): ShopInterface {
+    return {
+      id: "",
+      domain: "",
+      accessToken: "",
+      createdAt: 0,
+      updatedAt: 0,
+    };
+  }
+
+  public static async query (search: any, attributes?: any): Promise<ShopInterface[]> {
+    //@ts-ignore
+    const result: ShopInterface[] = await ShopModel.model.scan(search).attributes(attributes).all().exec();
 
     return result;
   }
 
-  public static async save (shop: ShopSchema.Object): Promise<ShopSchema> {
+  public static async save (shop: ShopInterface): Promise<Boolean> {
     const exists = (await ShopModel.query({ domain: { eq: shop.domain } }))[0];
 
     if(exists) {
@@ -36,19 +47,35 @@ export class ShopModel {
     }
   }
 
-  public static async create (shop: ShopSchema.Object): Promise<ShopSchema> {
-    const result = await ShopModel.model.create(shop);
+  public static async create (shop: ShopInterface): Promise<Boolean> {
+    try {
+      await ShopModel.model.create(shop);
+    } catch (error) {
+      throw error;
+    }
 
-    return result;
+    return true;
   }
 
-  public static async update (shop: ShopSchema.Object): Promise<ShopSchema> {
-    const result = await ShopModel.model.update({ id: shop.id }, shop);
+  public static async update (shop: ShopInterface): Promise<Boolean> {
+    try {
+      await ShopModel.model.update({ id: shop.id }, shop);
+    } catch (error) {
+      throw error;
+    }
 
-    return result;
+    return true;
   }
 
   public static async remove (id: string): Promise<boolean> {
     return true;
   }
+}
+
+export interface ShopInterface {
+  id: string;
+  domain: string;
+  accessToken: string;
+  createdAt?: number;
+  updatedAt?: number;
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Button, Caption, Card, ChoiceList, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderSchema, TemplateSchema } from  "../../../../shared/ts/shcema";
+import { OrderModel, OrderInterface, TemplateInterface } from  "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import { Printer } from "../../printer";
 import { Frame } from "../../frame";
@@ -16,7 +16,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
   public frame: Frame;
 
   public state: OrdersPrintView.State = {
-    order: OrderSchema.empty(),
+    order: OrderModel.empty(),
     templates: [],
     templatesSelected: [],
     preview: "",
@@ -30,7 +30,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: `/admin/orders/${this.props.match.params.id}.json` }))
-      .then((response) => this.setState({ order: OrderSchema.parse(response.order)[0] }))
+      .then((response) => this.setState({ order: OrderModel.parse(response.order)[0] }))
       .then(() => resource.database.find.query({ schema: "template" }))
       .then((response) => this.setState({ templates: response.items } ))
       .then(() => this.selectDefaultTemplates())
@@ -171,11 +171,11 @@ export namespace OrdersPrintView {
     filters: Filter[];
   }
   export interface State {
-    order: OrderSchema.Object;
-    templates: TemplateSchema.Object[];
+    order: OrderInterface;
+    templates: TemplateInterface[];
     templatesSelected: any[];
     preview: string;
-    previews: (TemplateSchema.Object & { html: string })[];
+    previews: (TemplateInterface & { html: string })[];
     orderPreview: string;
     loadingView: boolean;
   }

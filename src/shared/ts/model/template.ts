@@ -1,4 +1,3 @@
-import { TemplateSchema } from "../shcema";
 import * as dynamoose from "dynamoose";
 
 export class TemplateModel {
@@ -26,13 +25,26 @@ export class TemplateModel {
 
   public static model = dynamoose.model("template", TemplateModel.schema);
 
-  public static async query (search: any, attributes?: any): Promise<TemplateSchema[]> {
-    const result = await TemplateModel.model.scan(search).attributes(attributes).all().exec();
+  public static empty (): TemplateInterface {
+    return {
+      id: "",
+      title: "",
+      shop: "",
+      content: "",
+      default: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+
+  public static async query (search: any, attributes?: any): Promise<TemplateInterface[]> {
+    //@ts-ignore
+    const result: TemplateInterface[] = await TemplateModel.model.scan(search).attributes(attributes).all().exec();
 
     return result;
   }
 
-  public static async save (template: TemplateSchema.Object): Promise<TemplateSchema> {
+  public static async save (template: TemplateInterface): Promise<Boolean> {
     const exists = (await TemplateModel.query({ id: { eq: template.id } }))[0];
 
     if(exists) {
@@ -42,19 +54,37 @@ export class TemplateModel {
     }
   }
 
-  public static async create (template: TemplateSchema.Object): Promise<TemplateSchema> {
-    const result = await TemplateModel.model.create(template);
+  public static async create (template: TemplateInterface): Promise<Boolean> {
+    try {
+      await TemplateModel.model.create(template);
+    } catch (error) {
+      throw error;
+    }
 
-    return result;
+    return true;
   }
 
-  public static async update (template: TemplateSchema.Object): Promise<TemplateSchema> {
-    const result = await TemplateModel.model.update({ id: template.id }, template);
+  public static async update (template: TemplateInterface): Promise<Boolean> {
+    try {
+      await TemplateModel.model.update({ id: template.id }, template);
+    } catch (error) {
+      throw error;
+    }
 
-    return result;
+    return true;
   }
 
   public static async remove (id: string): Promise<boolean> {
     return true;
   }
+}
+
+export interface TemplateInterface {
+  id: string;
+  title: string;
+  content: string;
+  shop: string;
+  default: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

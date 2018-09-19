@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderSchema, TemplateSchema } from "../../../../shared/ts/shcema";
+import { OrderModel, OrderInterface, TemplateInterface } from "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import { Printer } from "../../printer";
 import * as util from "../../util";
@@ -13,7 +13,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
   };
 
   public state: OrdersListView.State = {
-    order: OrderSchema.empty(),
+    order: OrderModel.empty(),
     orders: [],
     selectedItems: [],
     templates: [],
@@ -34,7 +34,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: "/admin/orders.json?status=any" }))
-      .then((response) => this.setState({ orders: OrderSchema.parse(response.orders) }))
+      .then((response) => this.setState({ orders: OrderModel.parse(response.orders) }))
       .then(() => resource.database.find.query({ schema: "template" }))
       .then((response) => this.setState({ templates: response.items }))
       .then(() => this.setState({ loadingView: false }))
@@ -80,7 +80,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
     )
   }
 
-  private filter (orders: OrderSchema.Object[]): OrderSchema.Object[] {
+  private filter (orders: OrderInterface[]): OrderInterface[] {
     return orders.filter(order => {
       let matches = true;
       if(this.state.searchValue) {
@@ -113,7 +113,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
     );
   }
 
-  private resourceListItem (order: OrderSchema.Object): JSX.Element {
+  private resourceListItem (order: OrderInterface): JSX.Element {
     return (
       <ResourceList.Item
         accessibilityLabel={`View order details`}
@@ -218,10 +218,10 @@ export namespace OrdersListView {
     filters: Filter[];
   }
   export interface State {
-    order: OrderSchema.Object;
-    orders: OrderSchema.Object[];
+    order: OrderInterface;
+    orders: OrderInterface[];
     selectedItems: ResourceListSelectedItems;
-    templates: TemplateSchema.Object[];
+    templates: TemplateInterface[];
     orderPreview: string;
     loadingView: boolean;
     modalOpen: boolean;

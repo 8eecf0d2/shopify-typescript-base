@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { TemplateSchema } from  "../../../../shared/ts/shcema";
+import { TemplateModel, TemplateInterface } from  "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import * as util from "../../util";
 
@@ -11,8 +11,8 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
   };
 
   public state: TemplatesListView.State = {
-    template: TemplateSchema.empty(),
-    templates: [TemplateSchema.empty()],
+    template: TemplateModel.empty(),
+    templates: [TemplateModel.empty()],
     selectedItems: [],
     loadingView: false,
   };
@@ -79,7 +79,7 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
     );
   }
 
-  private resourceListItem (template: TemplateSchema.Object): JSX.Element {
+  private resourceListItem (template: TemplateInterface): JSX.Element {
     return (
       <ResourceList.Item
         accessibilityLabel={`View template details`}
@@ -116,8 +116,8 @@ export namespace TemplatesListView {
     title: string;
   }
   export interface State {
-    template: TemplateSchema.Object;
-    templates: TemplateSchema.Object[];
+    template: TemplateInterface;
+    templates: TemplateInterface[];
     selectedItems: ResourceListSelectedItems;
     loadingView: boolean;
   }

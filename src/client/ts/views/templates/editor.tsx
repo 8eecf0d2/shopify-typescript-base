@@ -8,7 +8,7 @@ import "prismjs/components/prism-clike";
 
 import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, Subheading, TextContainer, TextField, TextStyle } from "@shopify/polaris";
 
-import { TemplateSchema } from  "../../../../shared/ts/shcema";
+import { TemplateModel, TemplateInterface } from  "../../../../shared/ts/model";
 import { Printer } from "../../printer";
 import { resource } from "../../resource";
 import * as util from "../../util";
@@ -19,7 +19,7 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
   };
 
   public state: TemplatesEditorView.State = {
-    template: TemplateSchema.empty(),
+    template: TemplateModel.empty(),
     variables: {},
     loadingView: false,
     loadingSave: false,
@@ -148,7 +148,7 @@ export namespace TemplatesEditorView {
     title: string;
   }
   export interface State {
-    template: TemplateSchema.Object;
+    template: TemplateInterface;
     variables: any;
     loadingView: boolean;
     loadingSave: boolean;
