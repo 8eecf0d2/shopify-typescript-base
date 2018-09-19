@@ -11,7 +11,7 @@ plugins:
 provider:
   name: aws
   stage: ${opt:stage, "dev"}
-  region: ${env:AWS_REGION}
+  region: ${env:AWS_IAM_REGION}
   profile: ${env:AWS_PROFILE}
   runtime: ${env:AWS_RUNTIME}
   environment:
@@ -60,5 +60,5 @@ custom:
     domainName: shopify.aws.8eecf0d2.com
     certificateName: 8eecf0d2
     stage: ${self:provider.stage}
-    basePath:
-    endpointType: regional
+    basePath: ""
+    endpointType: edge
