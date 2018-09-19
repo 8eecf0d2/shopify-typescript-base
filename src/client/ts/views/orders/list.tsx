@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderModel, OrderInterface, TemplateInterface } from "../../../../shared/ts/model";
+import { OrderInterface, TemplateInterface } from "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import { Printer } from "../../printer";
 import * as util from "../../util";
@@ -13,7 +13,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
   };
 
   public state: OrdersListView.State = {
-    order: OrderModel.empty(),
+    order: null,
     orders: [],
     selectedItems: [],
     templates: [],
@@ -34,7 +34,7 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: "/admin/orders.json?status=any" }))
-      .then((response) => this.setState({ orders: OrderModel.parse(response.orders) }))
+      .then((response) => this.setState({ orders: response.orders }))
       .then(() => resource.database.find.query({ schema: "template" }))
       .then((response) => this.setState({ templates: response.items }))
       .then(() => this.setState({ loadingView: false }))

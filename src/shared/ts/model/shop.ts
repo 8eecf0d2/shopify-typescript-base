@@ -1,4 +1,3 @@
-
 import * as dynamoose from "dynamoose";
 
 export class ShopModel {
@@ -18,21 +17,10 @@ export class ShopModel {
     timestamps: true,
   });
 
-  public static model = dynamoose.model("shop", ShopModel.schema);
-
-  public static empty (): ShopInterface {
-    return {
-      id: "",
-      domain: "",
-      accessToken: "",
-      createdAt: 0,
-      updatedAt: 0,
-    };
-  }
+  public static model = dynamoose.model<ShopInterface, {}>("shop", ShopModel.schema);
 
   public static async query (search: any, attributes?: any): Promise<ShopInterface[]> {
-    //@ts-ignore
-    const result: ShopInterface[] = await ShopModel.model.scan(search).attributes(attributes).all().exec();
+    const result = await ShopModel.model.scan(search).attributes(attributes).all().exec();
 
     return result;
   }
@@ -78,4 +66,14 @@ export interface ShopInterface {
   accessToken: string;
   createdAt?: number;
   updatedAt?: number;
+}
+
+export const emptyShopModel = (): ShopInterface => {
+  return {
+    id: "",
+    domain: "",
+    accessToken: "",
+    createdAt: 0,
+    updatedAt: 0,
+  };
 }

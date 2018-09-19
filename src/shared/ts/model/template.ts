@@ -23,23 +23,10 @@ export class TemplateModel {
     timestamps: true,
   });
 
-  public static model = dynamoose.model("template", TemplateModel.schema);
-
-  public static empty (): TemplateInterface {
-    return {
-      id: "",
-      title: "",
-      shop: "",
-      content: "",
-      default: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-  }
+  public static model = dynamoose.model<TemplateInterface, {}>("template", TemplateModel.schema);
 
   public static async query (search: any, attributes?: any): Promise<TemplateInterface[]> {
-    //@ts-ignore
-    const result: TemplateInterface[] = await TemplateModel.model.scan(search).attributes(attributes).all().exec();
+    const result = await TemplateModel.model.scan(search).attributes(attributes).all().exec();
 
     return result;
   }
@@ -87,4 +74,16 @@ export interface TemplateInterface {
   default: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export const emptyTemplateModel = (): TemplateInterface => {
+  return {
+    id: "",
+    title: "",
+    shop: "",
+    content: "",
+    default: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 }

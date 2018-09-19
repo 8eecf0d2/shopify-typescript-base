@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Button, Caption, Card, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { TemplateModel, TemplateInterface } from  "../../../../shared/ts/model";
+import { TemplateInterface } from  "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import * as util from "../../util";
 
@@ -11,8 +11,8 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
   };
 
   public state: TemplatesListView.State = {
-    template: TemplateModel.empty(),
-    templates: [TemplateModel.empty()],
+    template: null,
+    templates: [],
     selectedItems: [],
     loadingView: false,
   };

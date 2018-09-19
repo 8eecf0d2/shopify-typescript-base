@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppliedFilter, Badge, Button, Caption, Card, ChoiceList, Filter, FilterType, FormLayout, Heading, Layout, Link, Modal, Page, Pagination, ResourceList, ResourceListSelectedItems, SkeletonBodyText, Stack, TextContainer, TextStyle } from "@shopify/polaris";
 
-import { OrderModel, OrderInterface, TemplateInterface } from  "../../../../shared/ts/model";
+import { OrderInterface, TemplateInterface } from  "../../../../shared/ts/model";
 import { resource } from "../../resource";
 import { Printer } from "../../printer";
 import { Frame } from "../../frame";
@@ -16,7 +16,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
   public frame: Frame;
 
   public state: OrdersPrintView.State = {
-    order: OrderModel.empty(),
+    order: null,
     templates: [],
     templatesSelected: [],
     preview: "",
@@ -30,7 +30,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: `/admin/orders/${this.props.match.params.id}.json` }))
-      .then((response) => this.setState({ order: OrderModel.parse(response.order)[0] }))
+      .then((response) => this.setState({ order: response.order }))
       .then(() => resource.database.find.query({ schema: "template" }))
       .then((response) => this.setState({ templates: response.items } ))
       .then(() => this.selectDefaultTemplates())
@@ -46,6 +46,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
 
   private async createPreviews (): Promise<void> {
     const previews = this.state.templates.map(async template => {
+      console.log(this.state.order)
       return {
         ...template,
         html: await Printer.print(template, this.state.order)
