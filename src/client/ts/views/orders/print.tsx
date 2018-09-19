@@ -46,7 +46,6 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
 
   private async createPreviews (): Promise<void> {
     const previews = this.state.templates.map(async template => {
-      console.log(this.state.order)
       return {
         ...template,
         html: await Printer.print(template, this.state.order)
