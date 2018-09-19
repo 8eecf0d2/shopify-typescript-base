@@ -28,13 +28,15 @@ export class Webtoken {
       };
     }
 
-    if(!webtoken.access_token) {
+    if(!webtoken.accessToken) {
       throw {
         // TODO: redirect to install page
         statusCode: 403,
         body: "Missing Shopify access token.",
       }
     }
+
+    request.webtoken = webtoken;
 
     return {
       statusCode: 200,
@@ -46,7 +48,8 @@ export namespace Webtoken {
   export interface Payload {
     secret: string;
     shop: string;
-    access_token?: string;
+    domain: string;
+    accessToken?: string;
   }
   export namespace Middleware {
     export interface Request extends Serverless.Handler.Request {

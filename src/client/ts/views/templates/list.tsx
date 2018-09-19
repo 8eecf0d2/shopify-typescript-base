@@ -21,9 +21,8 @@ export class TemplatesListView extends React.Component<TemplatesListView.Props, 
     /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.database.find.query({ schema: "templates" }))
-      .then((response) => this.setState({ templates: response.templates, loadingView: false }))
-      .catch((error) => console.log("error", error))
+      .then(() => resource.database.find.query({ schema: "template" }))
+      .then((response) => this.setState({ templates: response.items, loadingView: false }))
   }
 
   public render (): JSX.Element {

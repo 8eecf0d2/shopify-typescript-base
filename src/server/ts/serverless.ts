@@ -1,11 +1,13 @@
+import { Webtoken } from "./services/webtoken";
+
 /** TODO: Breakout class into helper package */
 export class Serverless {
   public static handle (...handlers: Serverless.Handler[]): Serverless.Handler {
     return async (request, context, callback) => {
       const emptyHeaders: Serverless.Handler.Headers = {};
       request = {
-        body: {},
         ...request,
+        body: typeof request.body === "string" ? JSON.parse(request.body) : request.body,
         headers: {
           ...Object.keys(request.headers).reduce((headers, header) => {
             headers[header.toLowerCase()] = request.headers[header];
@@ -53,6 +55,7 @@ export namespace Serverless {
       queryStringParameters: Query;
       method: "GET" | "POST";
       headers: Serverless.Handler.Headers;
+      webtoken?: Webtoken.Payload;
     }
     export interface Context {}
     export interface Response<Body = {}> {

@@ -29,8 +29,8 @@ export class TemplatesEditorView extends React.Component<TemplatesEditorView.Pro
     /** TODO: manage data elsewhere */
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
-      .then(() => resource.database.find.query({ schema: "templates", query: { id: this.props.match.params.id } }))
-      .then((response) => this.setState({ template: response.templates[0] }))
+      .then(() => resource.database.find.query({ schema: "template", search: { id: { eq: this.props.match.params.id } } }))
+      .then((response) => this.setState({ template: response.items[0] }))
       .then(() => Printer.variables())
       .then((variables) => this.setState({ variables: this.flattenVariables(variables) }))
       .then(() => this.setState({ loadingView: false }))

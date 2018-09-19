@@ -16,7 +16,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
   public frame: Frame;
 
   public state: OrdersPrintView.State = {
-    item: OrderSchema.empty(),
+    order: OrderSchema.empty(),
     templates: [],
     templatesSelected: [],
     preview: "",
@@ -30,9 +30,9 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     Promise.resolve()
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: `/admin/orders/${this.props.match.params.id}.json` }))
-      .then((response) => this.setState({ item: OrderSchema.parse(response.order)[0] }))
-      .then(() => resource.database.find.query({ schema: "templates" }))
-      .then((response) => this.setState({ templates: response.templates } ))
+      .then((response) => this.setState({ order: OrderSchema.parse(response.order)[0] }))
+      .then(() => resource.database.find.query({ schema: "template" }))
+      .then((response) => this.setState({ templates: response.items } ))
       .then(() => this.selectDefaultTemplates())
       .then(() => this.createPreviews())
       .then(() => this.setState({ loadingView: false }))
@@ -48,7 +48,7 @@ export class OrdersPrintView extends React.Component<OrdersPrintView.Props, Orde
     const previews = this.state.templates.map(async template => {
       return {
         ...template,
-        html: await Printer.print(template, this.state.item)
+        html: await Printer.print(template, this.state.order)
       }
     })
 
@@ -171,7 +171,7 @@ export namespace OrdersPrintView {
     filters: Filter[];
   }
   export interface State {
-    item: OrderSchema.Object;
+    order: OrderSchema.Object;
     templates: TemplateSchema.Object[];
     templatesSelected: any[];
     preview: string;

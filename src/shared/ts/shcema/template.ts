@@ -21,7 +21,7 @@ export namespace TemplateSchema {
     content: string;
     shop: string;
     default: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   }
 }

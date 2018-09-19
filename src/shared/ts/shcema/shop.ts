@@ -15,7 +15,7 @@ export namespace ShopSchema {
     id: string;
     domain: string;
     accessToken: string;
-    createdAt: number;
-    updatedAt: number;
+    createdAt?: number;
+    updatedAt?: number;
   }
 }

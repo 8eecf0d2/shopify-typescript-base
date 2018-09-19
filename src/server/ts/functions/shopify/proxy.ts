@@ -1,12 +1,9 @@
 import { Serverless } from "../../serverless";
 import { Fetch } from "../../../../shared/ts/fetch";
 import { Webtoken } from "../../services";
-import * as cookie from "cookie";
 
 export const shopifyProxyHandler: Serverless.Handler<handler.Request, handler.Response> = async (request, context, callback) => {
-  const query = JSON.parse(String(request.body));
-  const cookies = cookie.parse(String(request.headers.cookie));
-  const webtoken = Webtoken.verify(cookies.webtoken);
+  const query = request.body;
 
   if(!query.path || !query.method) {
     throw {
@@ -16,14 +13,15 @@ export const shopifyProxyHandler: Serverless.Handler<handler.Request, handler.Re
   }
 
   const response = await new Fetch({
-    host: webtoken.shop,
+    host: request.webtoken.domain,
     path: query.path,
     port: 443,
     method: query.method,
     headers: {
-      "X-Shopify-Access-Token": webtoken.access_token
+      "X-Shopify-Access-Token": request.webtoken.accessToken
     }
   }).exec(query.payload);
+
 
   if(response.errors) {
     throw {

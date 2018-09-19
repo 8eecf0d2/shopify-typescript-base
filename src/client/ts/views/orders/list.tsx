@@ -35,8 +35,8 @@ export class OrdersListView extends React.Component<OrdersListView.Props, Orders
       .then(() => this.setState({ loadingView: true }))
       .then(() => resource.shopify.query({ method: "GET", path: "/admin/orders.json?status=any" }))
       .then((response) => this.setState({ orders: OrderSchema.parse(response.orders) }))
-      .then(() => resource.database.find.query({ schema: "templates" }))
-      .then((response) => this.setState({ templates: response.templates }))
+      .then(() => resource.database.find.query({ schema: "template" }))
+      .then((response) => this.setState({ templates: response.items }))
       .then(() => this.setState({ loadingView: false }))
   }
 
